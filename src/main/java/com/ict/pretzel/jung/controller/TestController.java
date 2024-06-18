@@ -18,4 +18,9 @@ public class TestController {
         return "bye";
     }
     
+    @GetMapping("search")
+    public String search(){
+        System.out.println("search");
+        return "search end";
+    }
 }
