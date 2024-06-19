@@ -54,19 +54,17 @@ public class JWTUtil {
         return extractExpiration(token).before(new Date());
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(String user_id, String profile_idx) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
+        claims.put("profile_idx", profile_idx);        
+        return createToken(claims, user_id);
     }
 
     // 토큰 생성 
-    private String createToken(Map<String, Object> claims, String subject) {
-        // 내용을 추가하려면 (중요한 정보를 넣으면 안된다.) 
-        // claims.put("email", "nojm73@nate.com");
-        // claims.put("phone", "010-9732-9110");
+    private String createToken(Map<String, Object> claims, String user_id) {
         return Jwts.builder()
                    .setClaims(claims)
-                   .setSubject(subject)
+                   .setSubject(user_id)
                    .setIssuedAt(new Date(System.currentTimeMillis()))
                    .setExpiration(new Date(System.currentTimeMillis() + expiration))
                    .signWith(getKey(), SignatureAlgorithm.HS256)
