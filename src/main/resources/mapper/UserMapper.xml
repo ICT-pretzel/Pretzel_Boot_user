@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.ict.pretzel.ko.mapper.UserMapper">
+
+    <select id="login" parameterType="UserVO" resultType="UserVO">
+        select * from users where user_id=#{user_id}      
+    </select>
+
+    <select id="join" parameterType="UserVO">
+        insert into users(user_id, pwd, name, email, birth, gender, regdate, like_thema) 
+        values(#{user_id}, #{pwd}, #{name}, #{email}, #{birth}, #{gender}, sysdate(), #{like_thema})
+    </select>
+
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.ict.pretzel.ko.mapper.ProfileMapper">
+
+  <select id="profile_list" parameterType="String" resultType="ProfileVO">
+    SELECT * FROM profiles WHERE user_id = #{user_id}
+  </select>
+
+  <select id="profile_detail" parameterType="String" resultType="ProfileVO">
+    select * from profiles where profile_idx = #{profile_idx}      
+  </select>
+
+  <insert id="profile_insert" parameterType="ProfileVO">
+    insert into profiles(name, img_name, regdate, user_id) 
+    values(#{name}, #{img_name}, sysdate(), #{user_id})
+  </insert>
+
+</mapper>
