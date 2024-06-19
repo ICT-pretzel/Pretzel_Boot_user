@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- MyPageMapper.xml 파일: MyPageMapper 인터페이스와 연동되는 매퍼 파일 -->
+<mapper namespace="com.ict.pretzel.lee.mapper.MyPageMapper">
+
+  <!-- 사용자 상세 정보 조회 -->
+  <select id="getUserDetail" resultType="com.ict.pretzel.vo.UserVO">
+    SELECT * FROM users WHERE token = #{token}
+  </select>
+
+  <!-- 시청한 영화 목록 조회 -->
+  <select id="getWatchList" resultType="com.ict.pretzel.vo.MovieVO">
+    SELECT movies.* FROM watch_movies
+    JOIN movies ON watch_movies.movie_idx = movies.movie_idx
+    WHERE watch_movies.profile_idx = (SELECT profile_idx FROM profiles WHERE token = #{token})
+  </select>
+
+  <!-- 찜한 영화 목록 조회 -->
+  <select id="getWishList" resultType="com.ict.pretzel.vo.WishVO">
+    SELECT movies.* FROM wish_movies
+    JOIN movies ON wish_movies.movie_idx = movies.movie_idx
+    WHERE wish_movies.profile_idx = (SELECT profile_idx FROM profiles WHERE token = #{token})
+  </select>
+
+  <!-- 문의 목록 조회 -->
+  <select id="getQuestionList" resultType="com.ict.pretzel.vo.QuestionVO">
+    SELECT * FROM questions WHERE profile_idx = (SELECT profile_idx FROM profiles WHERE token = #{token})
+  </select>
+
+  <!-- 리뷰 목록 조회 -->
+  <select id="getReviewList" resultType="com.ict.pretzel.vo.ReviewVO">
+    SELECT * FROM reviews WHERE profile_idx = (SELECT profile_idx FROM profiles WHERE token = #{token})
+  </select>
+
+  <!-- 비밀번호 확인 -->
+  <select id="checkPassword" resultType="int">
+    SELECT COUNT(*) FROM users WHERE token = #{token} AND pwd = #{u_pwd}
+  </select>
+
+  <!-- 비밀번호 업데이트 -->
+  <update id="updatePassword">
+    UPDATE users SET pwd = #{new_pwd} WHERE token = #{token}
+  </update>
+
+  <!-- 구독 결제 -->
+  <update id="pay">
+    UPDATE users SET subs = #{u_subs} WHERE token = #{token}
+  </update>
+
+</mapper>

@@ -1,10 +1,8 @@
 package com.ict.pretzel.lee.mapper;
 
 import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
 import com.ict.pretzel.vo.MovieVO;
 import com.ict.pretzel.vo.QuestionVO;
 import com.ict.pretzel.vo.ReviewVO;
@@ -28,5 +26,5 @@ public interface MyPageMapper {
 
     int updatePassword(@Param("token") String token, @Param("new_pwd") String new_pwd);
 
-    int pay(@Param("price") String price, @Param("select_lev") String select_lev, @Param("token") String token);
+    int pay(@Param("token") String token, @Param("u_subs") String u_subs);
 }

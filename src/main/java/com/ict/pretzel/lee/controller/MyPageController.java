@@ -23,7 +23,7 @@ public class MyPageController {
     @Autowired
     private MyPageService myPageService;
 
-    @GetMapping("/user")
+    @GetMapping("/userdetail")
     public UserVO getUserDetail(@RequestParam String token) {
         return myPageService.getUserDetail(token);
     }
@@ -38,28 +38,28 @@ public class MyPageController {
         return myPageService.getWishList(token);
     }
 
-    @GetMapping("/questions")
+    @GetMapping("/questionlist")
     public List<QuestionVO> getQuestionList(@RequestParam String token) {
         return myPageService.getQuestionList(token);
     }
 
-    @GetMapping("/reviews")
+    @GetMapping("/reviewlist")
     public List<ReviewVO> getReviewList(@RequestParam String token) {
         return myPageService.getReviewList(token);
     }
 
-    @PostMapping("/password")
+    @PostMapping("/pwd/chk")
     public int checkPassword(@RequestParam String token, @RequestParam String u_pwd) {
         return myPageService.checkPassword(token, u_pwd);
     }
 
-    @PostMapping("/password/update")
+    @PostMapping("/pwd/update")
     public int updatePassword(@RequestParam String token, @RequestParam String new_pwd) {
         return myPageService.updatePassword(token, new_pwd);
     }
 
     @PostMapping("/pay")
-    public int pay(@RequestParam String price, @RequestParam String select_lev, @RequestParam String token) {
-        return myPageService.pay(price, select_lev, token);
+    public int pay(@RequestParam String token, @RequestParam String u_subs) {
+        return myPageService.pay(token, u_subs);
     }
 }

@@ -46,7 +46,7 @@ public class MyPageService {
         return myPageMapper.updatePassword(token, new_pwd);
     }
 
-    public int pay(String price, String select_lev, String token) {
-        return myPageMapper.pay(price, select_lev, token);
+    public int pay(String token, String u_subs) {
+        return myPageMapper.pay(token, u_subs);
     }
 }
