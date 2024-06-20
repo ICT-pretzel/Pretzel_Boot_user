@@ -13,5 +13,17 @@ public interface NoticeMapper {
 
     List<FaqVO> getFaqList();
 
-    int addQuestion(@Param("token") String token, @Param("question_title") String question_title, @Param("question_content") String question_content);
+    int addQuestion(@Param("profile_idx") int profileIdx, @Param("question_title") String question_title, @Param("question_content") String question_content);
 }
+
+/*
+@Mapper
+public interface NoticeMapper {
+
+    List<NoticeVO> getNoticeList(@Param("token") String token);
+
+    List<FaqVO> getFaqList(@Param("token") String token);
+
+    int addQuestion(@Param("token") String token, @Param("question_title") String questionTitle, @Param("question_content") String questionContent);
+}
+*/

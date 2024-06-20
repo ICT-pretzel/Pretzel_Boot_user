@@ -31,7 +31,31 @@ public class NoticeController {
     }
 
     @PostMapping("/add")
+    public int addQuestion(@RequestParam int profileIdx, @RequestParam String question_title, @RequestParam String question_content) {
+        return noticeService.addQuestion(profileIdx, question_title, question_content);
+    }
+}
+/*
+@RestController
+@RequestMapping("/notice")
+public class NoticeController {
+
+    @Autowired
+    private NoticeService noticeService;
+
+    @GetMapping("/list")
+    public List<NoticeVO> getNoticeList(@RequestParam String token) {
+        return noticeService.getNoticeList(token);
+    }
+
+    @GetMapping("/faq")
+    public List<FaqVO> getFaqList(@RequestParam String token) {
+        return noticeService.getFaqList(token);
+    }
+
+    @PostMapping("/add")
     public int addQuestion(@RequestParam String token, @RequestParam String question_title, @RequestParam String question_content) {
         return noticeService.addQuestion(token, question_title, question_content);
     }
 }
+*/

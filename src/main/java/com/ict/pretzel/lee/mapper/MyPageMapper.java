@@ -12,19 +12,19 @@ import com.ict.pretzel.vo.WishVO;
 @Mapper
 public interface MyPageMapper {
 
-    UserVO getUserDetail(@Param("token") String token);
+    UserVO getUserDetail(@Param("user_id") String userId);
 
-    List<MovieVO> getWatchList(@Param("token") String token);
+    List<MovieVO> getWatchList(@Param("profile_idx") int profileIdx);
 
-    List<WishVO> getWishList(@Param("token") String token);
+    List<WishVO> getWishList(@Param("profile_idx") int profileIdx);
 
-    List<QuestionVO> getQuestionList(@Param("token") String token);
+    List<QuestionVO> getQuestionList(@Param("profile_idx") int profileIdx);
 
-    List<ReviewVO> getReviewList(@Param("token") String token);
+    List<ReviewVO> getReviewList(@Param("profile_idx") int profileIdx);
 
-    int checkPassword(@Param("token") String token, @Param("u_pwd") String u_pwd);
+    int checkPassword(@Param("user_id") String userId, @Param("u_pwd") String uPwd);
 
-    int updatePassword(@Param("token") String token, @Param("new_pwd") String new_pwd);
+    int updatePassword(@Param("user_id") String userId, @Param("new_pwd") String newPwd);
 
-    int pay(@Param("token") String token, @Param("u_subs") String u_subs);
+    int pay(@Param("user_id") String userId, @Param("u_subs") String uSubs);
 }
