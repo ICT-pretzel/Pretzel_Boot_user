@@ -9,9 +9,25 @@
         select * from users where user_id=#{user_id}      
     </select>
 
-    <select id="join" parameterType="UserVO">
+    <select id="id_check" parameterType="String" resultType="int">
+        select count(*) from users where user_id=#{user_id}
+    </select>
+
+    <select id="email_check" parameterType="String" resultType="int">
+        select count(*) from users where email=#{email}
+    </select>
+
+    <insert id="join" parameterType="UserVO">
         insert into users(user_id, pwd, name, email, birth, gender, regdate, like_thema) 
         values(#{user_id}, #{pwd}, #{name}, #{email}, #{birth}, #{gender}, sysdate(), #{like_thema})
+    </insert>
+
+    <select id="find_id" parameterType="UserVO" resultType="String">
+        select user_id from users where name = #{name} and email = #{email}
+    </select>
+
+    <select id="find_pwd" parameterType="UserVO" resultType="String">
+        select user_id from users where user_id = #{user_id} and email = #{email}
     </select>
 
 </mapper>

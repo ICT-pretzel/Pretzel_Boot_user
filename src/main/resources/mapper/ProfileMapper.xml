@@ -10,12 +10,21 @@
   </select>
 
   <select id="profile_detail" parameterType="String" resultType="ProfileVO">
-    select * from profiles where profile_idx = #{profile_idx}      
-  </select>
+    select p.*, u.subs
+    from profiles p
+    left join users u on p.user_id = u.user_id
+    where p.profile_idx = #{profile_idx}
+</select>
 
   <insert id="profile_insert" parameterType="ProfileVO">
     insert into profiles(name, img_name, regdate, user_id) 
     values(#{name}, #{img_name}, sysdate(), #{user_id})
   </insert>
+
+  <update id="profile_update" parameterType="TokenVO">
+    update profiles 
+    set name = #{name}, img_name = #{img_name} 
+    where profile_idx = #{profile_idx}
+  </update>
 
 </mapper>

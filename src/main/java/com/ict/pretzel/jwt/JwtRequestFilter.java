@@ -11,6 +11,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -58,9 +59,11 @@ public class JwtRequestFilter extends OncePerRequestFilter{
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
             if(jwtUtil.validateToken(jwtToken, userDetails)){
+                // jwt 토큰에서 정보 가져오기
+                JwtDecode jwtDecode = new JwtDecode(jwtToken);
                 // 인증객체 생성
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
-                    = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    = new UsernamePasswordAuthenticationToken(jwtDecode, null, userDetails.getAuthorities());
                 //인증객체에 추가 세부 정보를 설정
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));    
 
