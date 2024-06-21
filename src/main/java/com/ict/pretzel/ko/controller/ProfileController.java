@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,7 +53,8 @@ public class ProfileController {
     
     // 프로필 상세
     @PostMapping("/detail")
-    public ResponseEntity<?> profile_detaile(@AuthenticationPrincipal JwtDecode jwtDecode) {
+    public ResponseEntity<?> profile_detaile(@RequestHeader("Authorization") String token) {
+        JwtDecode jwtDecode = new JwtDecode(token);
         return profileService.profile_detaile(jwtDecode.getProfile_idx());
     }
     
