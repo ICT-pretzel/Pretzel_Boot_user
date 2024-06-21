@@ -11,8 +11,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,12 +41,17 @@ public class JwtRequestFilter extends OncePerRequestFilter{
         // 토큰이 있으면서 Authorization 내용 Bearer 을 시작하면 
         if(requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")){
             jwtToken = requestTokenHeader.substring(7);
-           try {
+            try {
                 username = jwtUtil.extractUsername(jwtToken);
             } catch (IllegalArgumentException e) {
                 System.out.println("Unable to get JWT Token");
             } catch (ExpiredJwtException e) {
                 System.out.println("JWT Token has expired");
+            } catch (SignatureException e) {
+                // Handle JWT signature exception
+                response.setStatus(HttpServletResponse.SC_OK); // Set HTTP status to 200
+                response.getWriter().write("0"); // Return 0 instead of an error message
+                return;
             }
         }else{
             System.out.println("JWT 없음");
@@ -59,11 +64,9 @@ public class JwtRequestFilter extends OncePerRequestFilter{
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
             if(jwtUtil.validateToken(jwtToken, userDetails)){
-                // jwt 토큰에서 정보 가져오기
-                JwtDecode jwtDecode = new JwtDecode(jwtToken);
                 // 인증객체 생성
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
-                    = new UsernamePasswordAuthenticationToken(jwtDecode, null, userDetails.getAuthorities());
+                    = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 //인증객체에 추가 세부 정보를 설정
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));    
 
@@ -74,5 +77,6 @@ public class JwtRequestFilter extends OncePerRequestFilter{
         filterChain.doFilter(request, response);
 
     }
+
     
 }

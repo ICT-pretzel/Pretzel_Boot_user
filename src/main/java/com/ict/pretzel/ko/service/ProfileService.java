@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,10 +49,15 @@ public class ProfileService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     // 프로필 선택
     public ResponseEntity<?> profile_login(TokenVO token){
+        UserVO user = userMapper.login(token.getUser_id());
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUser_id());
         // 토큰 생성
-        final String jwt = jwtUtil.generateToken(token.getUser_id(), token.getProfile_idx());
+        final String jwt = jwtUtil.generateToken(userDetails, token.getProfile_idx());
         // (프로필이미지, 프로필이름, 구독권)
         ProfileVO profile = profileMapper.profile_detail(token.getProfile_idx());
         if (jwt != null && profile != null) {
@@ -120,7 +127,7 @@ public class ProfileService {
         } catch (Exception e) {
             System.out.println("profile_update : " + e);
         }
-        return ResponseEntity.ok("error");
+        return ResponseEntity.ok("0");
     }
 
     

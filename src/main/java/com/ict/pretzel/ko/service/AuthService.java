@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+import com.ict.pretzel.ko.mapper.UserMapper;
 import com.ict.pretzel.vo.UserVO;
 
 @Service
@@ -19,12 +20,19 @@ public class AuthService {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private UserMapper userMapper;
+
     public ResponseEntity<?> login(UserVO user){
         try {
             // 로그인 정보가 DB 에 있는지 여부 체크
             Authentication authentication 
             = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getUser_id(), user.getPwd()));
+
+            // 마지막 로그인 업데이트
+            int result = userMapper.last_login(user.getUser_id());
+
 
             // 아이디 비밀번호가 맞으면 user_id 리턴
             return ResponseEntity.ok(user.getUser_id());

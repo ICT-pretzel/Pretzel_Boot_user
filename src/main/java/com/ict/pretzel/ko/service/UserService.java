@@ -81,6 +81,26 @@ public class UserService {
         return ResponseEntity.ok("0");
     }
 
+    // 새 비밀번호 설정
+    public ResponseEntity<?> pwd_update(String user_id, String pwd){
+        UserVO user = new UserVO();
+        user.setUser_id(user_id);
+        user.setPwd(passwordEncoder.encode(pwd));
+        // DB 에 업데이트하기
+        int result = userMapper.pwd_update(user);
+        return ResponseEntity.ok(result);
+    }
+
+    // 유저 상세
+    public ResponseEntity<?> detail(String user_id){
+        UserVO user = userMapper.login(user_id);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        }
+        return ResponseEntity.ok("0");
+    }
+
+    
 
 
 }

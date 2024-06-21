@@ -18,5 +18,9 @@ public interface UserMapper {
     String find_id(UserVO user);
     
     String find_pwd(UserVO user);
+
+    int pwd_update(UserVO user);
+
+    int last_login(String user_id);
     
 }
