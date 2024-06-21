@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,12 +41,17 @@ public class JwtRequestFilter extends OncePerRequestFilter{
         // 토큰이 있으면서 Authorization 내용 Bearer 을 시작하면 
         if(requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")){
             jwtToken = requestTokenHeader.substring(7);
-           try {
+            try {
                 username = jwtUtil.extractUsername(jwtToken);
             } catch (IllegalArgumentException e) {
                 System.out.println("Unable to get JWT Token");
             } catch (ExpiredJwtException e) {
                 System.out.println("JWT Token has expired");
+            } catch (SignatureException e) {
+                // Handle JWT signature exception
+                response.setStatus(HttpServletResponse.SC_OK); // Set HTTP status to 200
+                response.getWriter().write("0"); // Return 0 instead of an error message
+                return;
             }
         }else{
             System.out.println("JWT 없음");
@@ -71,5 +77,6 @@ public class JwtRequestFilter extends OncePerRequestFilter{
         filterChain.doFilter(request, response);
 
     }
+
     
 }

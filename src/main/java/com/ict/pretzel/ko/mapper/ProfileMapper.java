@@ -14,5 +14,7 @@ public interface ProfileMapper {
     ProfileVO profile_detail(String profile_idx);
 
     int profile_insert(ProfileVO profile);
+    
+    int profile_update(ProfileVO profile);
 
 }

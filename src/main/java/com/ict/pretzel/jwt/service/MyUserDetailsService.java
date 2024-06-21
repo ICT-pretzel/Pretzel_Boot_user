@@ -1,4 +1,4 @@
-package com.ict.pretzel.jwt.server;
+package com.ict.pretzel.jwt.service;
 
 import java.util.ArrayList;
 

@@ -4,8 +4,11 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -44,20 +47,20 @@ public class JWTUtil {
 
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
-                   .setSigningKey(getKey())
-                   .build()
-                   .parseClaimsJws(token)
-                   .getBody();
+                    .setSigningKey(getKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
     }
 
     private Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
-    public String generateToken(String user_id, String profile_idx) {
+    public String generateToken(UserDetails userDetails, String profile_idx) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("profile_idx", profile_idx);        
-        return createToken(claims, user_id);
+        return createToken(claims, userDetails.getUsername());
     }
 
     // 토큰 생성 
