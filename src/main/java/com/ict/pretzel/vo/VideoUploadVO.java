@@ -6,6 +6,6 @@ import lombok.Data;
 
 @Data
 public class VideoUploadVO {
-    private String original_title, trans_title, movie_id, thema;
+    private String original_title, trans_title, movie_id, thema, movie_src;
     private MultipartFile video;
 }

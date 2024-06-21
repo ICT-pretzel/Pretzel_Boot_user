@@ -51,14 +51,10 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
 	// 구글 스토리지 업로드용
-    implementation 'org.springframework.cloud:spring-cloud-gcp-starter-storage'
-    implementation 'org.springframework.cloud:spring-cloud-gcp-starter'
+	implementation platform('com.google.cloud:libraries-bom:26.41.0')
+	implementation 'com.google.cloud:google-cloud-storage'
 }
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2022.0.3"
-    }
-}
+
 
 tasks.named('test') {
 	useJUnitPlatform()
