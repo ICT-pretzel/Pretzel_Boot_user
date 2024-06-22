@@ -2,7 +2,6 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="com.ict.pretzel.lee.mapper.NoticeMapper">
 
   <!-- 공지사항 목록 조회 -->
@@ -25,28 +24,3 @@
             (SELECT admin_id FROM users WHERE profile_idx = #{profile_idx} LIMIT 1))
   </insert>
 </mapper>
-
-<!--
-<mapper namespace="com.ict.pretzel.lee.mapper.NoticeMapper">
-
-  <공지사항 목록 조회>
-  <select id="getNoticeList" resultType="com.ict.pretzel.vo.NoticeVO">
-    SELECT * FROM notices WHERE profile_idx = (SELECT profile_idx FROM users WHERE token = #{token})
-  </select>
-
-  <FAQ 목록 조회>
-  <select id="getFaqList" resultType="com.ict.pretzel.vo.FaqVO">
-    SELECT * FROM faqs WHERE profile_idx = (SELECT profile_idx FROM users WHERE token = #{token})
-  </select>
-
-  <질문 추가>
-  <insert id="addQuestion" parameterType="map">
-    INSERT INTO questions (profile_idx, title, content, regdate, admin_id)
-    VALUES ((SELECT profile_idx FROM users WHERE token = #{token}),
-            #{question_title},
-            #{question_content},
-            CURRENT_TIMESTAMP,
-            (SELECT admin_id FROM users WHERE token = #{token} LIMIT 1))
-  </insert>
-</mapper>
--->

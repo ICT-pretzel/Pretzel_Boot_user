@@ -1,9 +1,7 @@
 package com.ict.pretzel.jwt;
 
 import java.util.Base64;
-
-import org.springframework.boot.configurationprocessor.json.JSONObject;
-
+import org.json.JSONObject;
 import lombok.Data;
 
 @Data
@@ -20,10 +18,10 @@ public class JwtDecode {
             if (chunks.length < 2) {
                 throw new IllegalArgumentException("Invalid JWT token format");
             }
-            
+
             // 패딩 추가
             String payload = new String(addPadding(chunks[1]));
-            
+
             // 디코딩
             Base64.Decoder decoder = Base64.getUrlDecoder();
             String decodedPayload = new String(decoder.decode(payload));
@@ -31,7 +29,7 @@ public class JwtDecode {
             // Payload 출력
             System.out.println("Payload: " + decodedPayload);
 
-            // JSON 파싱 (필요시) 
+            // JSON 파싱
             JSONObject jsonPayload = new JSONObject(decodedPayload);
             this.user_id = jsonPayload.optString("sub", "N/A");
             this.profile_idx = jsonPayload.optString("profile_idx", "N/A");

@@ -1,10 +1,9 @@
 package com.ict.pretzel.lee.service;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity; // 추가
 import org.springframework.stereotype.Service;
-
 import com.ict.pretzel.lee.mapper.NoticeMapper;
 import com.ict.pretzel.vo.FaqVO;
 import com.ict.pretzel.vo.NoticeVO;
@@ -15,41 +14,18 @@ public class NoticeService {
     @Autowired
     private NoticeMapper noticeMapper;
 
-    public List<NoticeVO> getNoticeList() {
-        return noticeMapper.getNoticeList();
+    public ResponseEntity<List<NoticeVO>> getNoticeList() {
+        List<NoticeVO> noticeList = noticeMapper.getNoticeList();
+        return ResponseEntity.ok(noticeList);
     }
 
-    public List<FaqVO> getFaqList() {
-        return noticeMapper.getFaqList();
+    public ResponseEntity<List<FaqVO>> getFaqList() {
+        List<FaqVO> faqList = noticeMapper.getFaqList();
+        return ResponseEntity.ok(faqList);
     }
 
-    public int addQuestion(int profileIdx, String question_title, String question_content) {
-        return noticeMapper.addQuestion(profileIdx, question_title, question_content);
-    }
-}
-/*
-@Service
-public class NoticeService {
-
-    @Autowired
-    private NoticeMapper noticeMapper;
-
-    @Autowired
-    private JWTUtil jwtUtil;
-
-    public List<NoticeVO> getNoticeList(String token) {
-        int profileIdx = Integer.parseInt(jwtUtil.extractProfileIdx(token));
-        return noticeMapper.getNoticeList(profileIdx);
-    }
-
-    public List<FaqVO> getFaqList(String token) {
-        int profileIdx = Integer.parseInt(jwtUtil.extractProfileIdx(token));
-        return noticeMapper.getFaqList(profileIdx);
-    }
-
-    public int addQuestion(String token, String questionTitle, String questionContent) {
-        int profileIdx = Integer.parseInt(jwtUtil.extractProfileIdx(token));
-        return noticeMapper.addQuestion(profileIdx, questionTitle, questionContent);
+    public ResponseEntity<Integer> addQuestion(int profileIdx, String question_title, String question_content) { // 수정
+        int result = noticeMapper.addQuestion(profileIdx, question_title, question_content);
+        return ResponseEntity.ok(result);
     }
 }
-*/
