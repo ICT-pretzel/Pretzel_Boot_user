@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class JwtDecode {
     // 토큰 안에 있는 정보
-    private String user_id, profile_idx;
+    private String user_id;
 
     public JwtDecode(String token) {
         try {
@@ -34,7 +34,6 @@ public class JwtDecode {
             // JSON 파싱 (필요시) 
             JSONObject jsonPayload = new JSONObject(decodedPayload);
             this.user_id = jsonPayload.optString("sub", "N/A");
-            this.profile_idx = jsonPayload.optString("profile_idx", "N/A");
 
         } catch (Exception e) {
             e.printStackTrace();

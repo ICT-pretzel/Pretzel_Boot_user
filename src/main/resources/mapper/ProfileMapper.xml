@@ -21,7 +21,7 @@
     values(#{name}, #{img_name}, sysdate(), #{user_id})
   </insert>
 
-  <update id="profile_update" parameterType="TokenVO">
+  <update id="profile_update" parameterType="ProfileVO">
     update profiles 
     set name = #{name}, img_name = #{img_name} 
     where profile_idx = #{profile_idx}

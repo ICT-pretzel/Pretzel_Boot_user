@@ -84,17 +84,14 @@ public class UserController {
     @PostMapping("/pwd_check")
     public ResponseEntity<?> pwd_check(@RequestHeader("Authorization") String token, 
                                         @RequestBody UserVO user) {
-        JwtDecode jwtDecode = new JwtDecode(token);
-        user.setUser_id(jwtDecode.getUser_id());
-        user.setPwd(user.getPwd());
-        return authService.login(user);
+        return userService.pwd_check(token, user.getPwd());
     }
     
     // 유저 상세
-    @PostMapping("/detail")
-    public ResponseEntity<?> detail(@RequestHeader("Authorization") String token) {
+    @PostMapping("/user_detail")
+    public ResponseEntity<?> user_detail(@RequestHeader("Authorization") String token) {
         JwtDecode jwtDecode = new JwtDecode(token);
-        return userService.detail(jwtDecode.getUser_id());
+        return userService.user_detail(jwtDecode.getUser_id());
     }
 
     

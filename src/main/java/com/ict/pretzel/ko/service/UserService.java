@@ -6,9 +6,14 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.ict.pretzel.jwt.JwtDecode;
+import com.ict.pretzel.jwt.JwtResponse;
 import com.ict.pretzel.ko.mapper.UserMapper;
 import com.ict.pretzel.vo.UserVO;
 
@@ -65,7 +70,6 @@ public class UserService {
                 for(int i=0; i<substract; i++) {
                     sb.append("0");
                 }
-                    
                 sb.append(randomNumber);
                 randomNumber = sb.toString();
             }
@@ -81,6 +85,25 @@ public class UserService {
         return ResponseEntity.ok("0");
     }
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    // 비밀번호 체크
+    public ResponseEntity<?> pwd_check(String token, String cpwd){
+        try {
+            JwtDecode jwtDecode = new JwtDecode(token);
+            // 로그인 정보가 DB 에 있는지 여부 체크
+            Authentication authentication 
+            = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(jwtDecode.getUser_id(), cpwd));
+            return ResponseEntity.ok("1");
+        } catch (Exception e) {
+            // 틀리면 0 리턴
+            System.out.println("login : " + e);
+            return ResponseEntity.status(401).body("0");
+        }
+    }
+
     // 새 비밀번호 설정
     public ResponseEntity<?> pwd_update(String user_id, String pwd){
         UserVO user = new UserVO();
@@ -92,7 +115,7 @@ public class UserService {
     }
 
     // 유저 상세
-    public ResponseEntity<?> detail(String user_id){
+    public ResponseEntity<?> user_detail(String user_id){
         UserVO user = userMapper.login(user_id);
         if (user != null) {
             return ResponseEntity.ok(user);

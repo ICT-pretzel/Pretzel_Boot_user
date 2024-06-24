@@ -37,10 +37,14 @@ public class JwtRequestFilter extends OncePerRequestFilter{
         final String requestTokenHeader = request.getHeader("Authorization");
         String username = null;
         String jwtToken = null;
-        
+
+        // 'Authorization' 헤더가 없거나 Bearer 토큰이 아니면 요청을 계속 진행합니다.
         // 토큰이 있으면서 Authorization 내용 Bearer 을 시작하면 
         if(requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")){
+            // Bearer 토큰에서 JWT를 추출합니다.
             jwtToken = requestTokenHeader.substring(7);
+
+            // 토큰 만료 여부 확인, 만료시 다음 필터로 넘기지 않음
             try {
                 username = jwtUtil.extractUsername(jwtToken);
             } catch (IllegalArgumentException e) {

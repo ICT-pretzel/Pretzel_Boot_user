@@ -8,20 +8,17 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ict.pretzel.jwt.JWTUtil;
 import com.ict.pretzel.jwt.JwtDecode;
 import com.ict.pretzel.ko.mapper.ProfileMapper;
 import com.ict.pretzel.ko.mapper.UserMapper;
-import com.ict.pretzel.ko.vo.TokenVO;
 import com.ict.pretzel.vo.ProfileVO;
 import com.ict.pretzel.vo.UserVO;
 
@@ -52,31 +49,16 @@ public class ProfileService {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    // 프로필 선택
-    public ResponseEntity<?> profile_login(TokenVO token){
-        UserVO user = userMapper.login(token.getUser_id());
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUser_id());
-        // 토큰 생성
-        final String jwt = jwtUtil.generateToken(userDetails, token.getProfile_idx());
-        // (프로필이미지, 프로필이름, 구독권)
-        ProfileVO profile = profileMapper.profile_detail(token.getProfile_idx());
-        if (jwt != null && profile != null) {
-            // 맵에 넣어서 보내기
-            Map<String, Object> map = new HashMap<>();
-            map.put("token", jwt);
-            map.put("profile", profile);
-            return ResponseEntity.ok(map);
-        }
-        return ResponseEntity.ok("0");
-    }
-
     // 프로필 추가
     @Value("${upload.path}")
     private String path;
 
-    public ResponseEntity<?> profile_insert(ProfileVO profile){
+    public ResponseEntity<?> profile_insert(MultipartFile img_file, String name, String token){
         try {
-            MultipartFile img_file = profile.getImg_file();
+            JwtDecode jwtDecode = new JwtDecode(token);
+            ProfileVO profile = new ProfileVO();
+            profile.setUser_id(jwtDecode.getUser_id());
+            profile.setName(name);
             if (img_file.isEmpty()) {
                 profile.setImg_name("");
             }else {
@@ -89,9 +71,7 @@ public class ProfileService {
                 FileCopyUtils.copy(in, out);
             }
             int result = profileMapper.profile_insert(profile);
-            if (result > 0) {
-                return ResponseEntity.ok(profile.getUser_id());
-            }
+            return ResponseEntity.ok(result);
         } catch (Exception e) {
             System.out.println("profile_insert : " + e);
         }
@@ -99,7 +79,7 @@ public class ProfileService {
     }
 
     // 프로필 상세
-    public ResponseEntity<?> profile_detaile(String profile_idx){
+    public ResponseEntity<?> profile_detail(String profile_idx){
         ProfileVO profile = profileMapper.profile_detail(profile_idx);
         if (profile != null) {
             return ResponseEntity.ok(profile);
@@ -112,7 +92,9 @@ public class ProfileService {
         try {
             // 원래 프로필 정보 가져오기 
             ProfileVO profile = profileMapper.profile_detail(profile_idx);
+            // 프로필 이름 수정
             profile.setName(name);
+            // 이미지 수정
             if (!img_file.isEmpty()) {
                 UUID uuid = UUID.randomUUID();
                 String img_name = uuid + "_" + img_file.getOriginalFilename();
