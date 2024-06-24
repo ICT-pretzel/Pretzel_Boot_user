@@ -25,60 +25,60 @@ public class MyPageController {
     private MyPageService myPageService;
 
     @GetMapping("/userdetail")
-    public ResponseEntity<?> getUserDetail(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> userdetail(@RequestHeader("Authorization") String token) {
         // "Bearer " 문자열 제거
         String jwtToken = token.replace("Bearer ", "");
         JwtDecode jwtDecode = new JwtDecode(jwtToken);
         String userId = jwtDecode.getUser_id();
-        return ResponseEntity.ok(myPageService.getUserDetail(userId));
+        return ResponseEntity.ok(myPageService.userdetail(userId));
     }
 
     @GetMapping("/watchlist")
-    public ResponseEntity<List<MovieVO>> getWatchList(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<List<MovieVO>> watchlist(@RequestHeader("Authorization") String token) {
         String jwtToken = token.replace("Bearer ", "");
         JwtDecode jwtDecode = new JwtDecode(jwtToken);
         int profileIdx = Integer.parseInt(jwtDecode.getProfile_idx());
-        return ResponseEntity.ok(myPageService.getWatchList(profileIdx));
+        return ResponseEntity.ok(myPageService.watchlist(profileIdx));
     }
 
     @GetMapping("/wishlist")
-    public ResponseEntity<List<WishVO>> getWishList(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<List<WishVO>> wishlist(@RequestHeader("Authorization") String token) {
         String jwtToken = token.replace("Bearer ", "");
         JwtDecode jwtDecode = new JwtDecode(jwtToken);
         int profileIdx = Integer.parseInt(jwtDecode.getProfile_idx());
-        return ResponseEntity.ok(myPageService.getWishList(profileIdx));
+        return ResponseEntity.ok(myPageService.wishlist(profileIdx));
     }
 
     @GetMapping("/questionlist")
-    public ResponseEntity<List<QuestionVO>> getQuestionList(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<List<QuestionVO>> questionlist(@RequestHeader("Authorization") String token) {
         String jwtToken = token.replace("Bearer ", "");
         JwtDecode jwtDecode = new JwtDecode(jwtToken);
         int profileIdx = Integer.parseInt(jwtDecode.getProfile_idx());
-        return ResponseEntity.ok(myPageService.getQuestionList(profileIdx));
+        return ResponseEntity.ok(myPageService.questionlist(profileIdx));
     }
 
     @GetMapping("/reviewlist")
-    public ResponseEntity<List<ReviewVO>> getReviewList(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<List<ReviewVO>> reviewlist(@RequestHeader("Authorization") String token) {
         String jwtToken = token.replace("Bearer ", "");
         JwtDecode jwtDecode = new JwtDecode(jwtToken);
         int profileIdx = Integer.parseInt(jwtDecode.getProfile_idx());
-        return ResponseEntity.ok(myPageService.getReviewList(profileIdx));
+        return ResponseEntity.ok(myPageService.reviewlist(profileIdx));
     }
 
     @PostMapping("/pwd/chk")
-    public ResponseEntity<Integer> checkPassword(@RequestHeader("Authorization") String token, @RequestParam String u_pwd) {
+    public ResponseEntity<Integer> pwdchk(@RequestHeader("Authorization") String token, @RequestParam String u_pwd) {
         String jwtToken = token.replace("Bearer ", "");
         JwtDecode jwtDecode = new JwtDecode(jwtToken);
         String userId = jwtDecode.getUser_id();
-        return ResponseEntity.ok(myPageService.checkPassword(userId, u_pwd));
+        return ResponseEntity.ok(myPageService.pwdchk(userId, u_pwd));
     }
 
     @PostMapping("/pwd/update")
-    public ResponseEntity<Integer> updatePassword(@RequestHeader("Authorization") String token, @RequestParam String new_pwd) {
+    public ResponseEntity<Integer> pwdupdate(@RequestHeader("Authorization") String token, @RequestParam String new_pwd) {
         String jwtToken = token.replace("Bearer ", "");
         JwtDecode jwtDecode = new JwtDecode(jwtToken);
         String userId = jwtDecode.getUser_id();
-        return ResponseEntity.ok(myPageService.updatePassword(userId, new_pwd));
+        return ResponseEntity.ok(myPageService.pwdupdate(userId, new_pwd));
     }
 
     @PostMapping("/pay")

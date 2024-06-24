@@ -16,32 +16,32 @@ public class MyPageService {
     @Autowired
     private MyPageMapper myPageMapper;
 
-    public UserVO getUserDetail(String userId) {
-        return myPageMapper.getUserDetail(userId);
+    public UserVO userdetail(String userId) {
+        return myPageMapper.userdetail(userId);
     }
 
-    public List<MovieVO> getWatchList(int profileIdx) {
-        return myPageMapper.getWatchList(profileIdx);
+    public List<MovieVO> watchlist(int profileIdx) {
+        return myPageMapper.watchlist(profileIdx);
     }
 
-    public List<WishVO> getWishList(int profileIdx) {
-        return myPageMapper.getWishList(profileIdx);
+    public List<WishVO> wishlist(int profileIdx) {
+        return myPageMapper.wishlist(profileIdx);
     }
 
-    public List<QuestionVO> getQuestionList(int profileIdx) {
-        return myPageMapper.getQuestionList(profileIdx);
+    public List<QuestionVO> questionlist(int profileIdx) {
+        return myPageMapper.questionlist(profileIdx);
     }
 
-    public List<ReviewVO> getReviewList(int profileIdx) {
-        return myPageMapper.getReviewList(profileIdx);
+    public List<ReviewVO> reviewlist(int profileIdx) {
+        return myPageMapper.reviewlist(profileIdx);
     }
 
-    public int checkPassword(String userId, String uPwd) {
-        return myPageMapper.checkPassword(userId, uPwd);
+    public int pwdchk(String userId, String uPwd) {
+        return myPageMapper.pwdchk(userId, uPwd);
     }
 
-    public int updatePassword(String userId, String newPwd) {
-        return myPageMapper.updatePassword(userId, newPwd);
+    public int pwdupdate(String userId, String newPwd) {
+        return myPageMapper.pwdupdate(userId, newPwd);
     }
 
     public int pay(String userId, String uSubs) {

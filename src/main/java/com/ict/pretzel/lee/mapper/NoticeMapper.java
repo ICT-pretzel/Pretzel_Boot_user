@@ -9,9 +9,9 @@ import com.ict.pretzel.vo.NoticeVO;
 @Mapper
 public interface NoticeMapper {
 
-    List<NoticeVO> getNoticeList();
+    List<NoticeVO> list();
 
-    List<FaqVO> getFaqList();
+    List<FaqVO> faq();
 
-    int addQuestion(@Param("profile_idx") int profileIdx, @Param("question_title") String question_title, @Param("question_content") String question_content);
+    int add(@Param("profile_idx") int profileIdx, @Param("question_title") String question_title, @Param("question_content") String question_content);
 }

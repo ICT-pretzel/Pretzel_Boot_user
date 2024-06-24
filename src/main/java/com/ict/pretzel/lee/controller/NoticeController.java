@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ict.pretzel.lee.service.NoticeService;
 import com.ict.pretzel.jwt.JwtDecode;
-import com.ict.pretzel.vo.FaqVO;
-import com.ict.pretzel.vo.NoticeVO;
 
 @RestController
 @RequestMapping("/notice")
@@ -21,20 +19,20 @@ public class NoticeController {
     private NoticeService noticeService;
 
     @GetMapping("/list")
-    public ResponseEntity<?> getNoticeList() {
-        return ResponseEntity.ok(noticeService.getNoticeList());
+    public ResponseEntity<?> list() {
+        return ResponseEntity.ok(noticeService.list());
     }
 
     @GetMapping("/faq")
-    public ResponseEntity<?> getFaqList() {
-        return ResponseEntity.ok(noticeService.getFaqList());
+    public ResponseEntity<?> faq() {
+        return ResponseEntity.ok(noticeService.faq());
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addQuestion(@RequestHeader("Authorization") String token, @RequestParam String question_title, @RequestParam String question_content) {
+    public ResponseEntity<?> add(@RequestHeader("Authorization") String token, @RequestParam String question_title, @RequestParam String question_content) {
         String jwtToken = token.replace("Bearer ", "");
         JwtDecode jwtDecode = new JwtDecode(jwtToken);
         int profileIdx = Integer.parseInt(jwtDecode.getProfile_idx());
-        return ResponseEntity.ok(noticeService.addQuestion(profileIdx, question_title, question_content));
+        return ResponseEntity.ok(noticeService.add(profileIdx, question_title, question_content));
     }
 }
