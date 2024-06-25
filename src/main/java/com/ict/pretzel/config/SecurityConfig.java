@@ -9,6 +9,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -24,10 +27,13 @@ import com.ict.pretzel.jwt.JwtRequestFilter;
 public class SecurityConfig {
     private UserDetailsService userDetailsService;
     private JwtRequestFilter jwtRequestFilter;
+    private OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
 
-    public SecurityConfig(UserDetailsService userDetailsService, JwtRequestFilter jwtRequestFilter){
+    public SecurityConfig(UserDetailsService userDetailsService, JwtRequestFilter jwtRequestFilter,
+                            OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler){
         this.userDetailsService = userDetailsService ;
         this.jwtRequestFilter = jwtRequestFilter;
+        this.oAuth2AuthenticationSuccessHandler = oAuth2AuthenticationSuccessHandler;
     }
 
     @Bean
@@ -44,6 +50,15 @@ public class SecurityConfig {
                         .logoutSuccessHandler((request, response, authentication) -> {
                             response.setStatus(200);
                         })
+        )
+        // oauth2Login 로그인 설정
+        // successHandler -> 로그인 성공시 호출
+        // userInfoEndPoint => OAuth2 인증과정에서 인증된 사용자에 대한 정보를 제공하는 API 엔드포인트(사용자의 세부정보를 가져오는 역할)
+        .oauth2Login(oauth2 -> oauth2
+                    .successHandler(oAuth2AuthenticationSuccessHandler)
+                    .userInfoEndpoint(userInfo -> userInfo
+                        .userService(oAuth2UserService())
+                    )
         )
         // 먼저 토큰 검사 
         .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
@@ -76,6 +91,13 @@ public class SecurityConfig {
     @Bean
     MultipartResolver multipartResolver() {
         return new StandardServletMultipartResolver();
+    }
+
+    // CustomOAuth2userService 클래스는 사용자 정보를 가져오는 로직을 사용자 정의 할 수 있는 클래스
+    // CustomOAuth2userService 클래스는 OAuth2UserService 를 상속 받는 클래스이다.
+    @Bean
+    OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService(){
+        return new CustomOAuth2userService();
     }
 
 }

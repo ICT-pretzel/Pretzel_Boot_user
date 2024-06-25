@@ -113,16 +113,13 @@ public class UserService {
         int result = userMapper.pwd_update(user);
         return ResponseEntity.ok(result);
     }
-
-    // 유저 상세
-    public ResponseEntity<?> user_detail(String user_id){
-        UserVO user = userMapper.login(user_id);
-        if (user != null) {
-            return ResponseEntity.ok(user);
-        }
-        return ResponseEntity.ok("0");
+    
+    public ResponseEntity<?> add_detail(String token, UserVO user){
+        JwtDecode jwtDecode = new JwtDecode(token);
+        user.setUser_id(jwtDecode.getUser_id()); 
+        int result = userMapper.add_detail(user);
+        return ResponseEntity.ok(result);
     }
-
     
 
 

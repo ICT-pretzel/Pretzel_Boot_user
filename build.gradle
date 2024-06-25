@@ -60,6 +60,9 @@ dependencies {
 	 
 	// 이메일보내기
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	// sns 로그인
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 }
 
 

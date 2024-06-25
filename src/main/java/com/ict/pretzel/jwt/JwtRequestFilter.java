@@ -35,7 +35,7 @@ public class JwtRequestFilter extends OncePerRequestFilter{
             throws ServletException, IOException {
 
         final String requestTokenHeader = request.getHeader("Authorization");
-        String username = null;
+        String user_id = null;
         String jwtToken = null;
 
         // 'Authorization' 헤더가 없거나 Bearer 토큰이 아니면 요청을 계속 진행합니다.
@@ -46,7 +46,7 @@ public class JwtRequestFilter extends OncePerRequestFilter{
 
             // 토큰 만료 여부 확인, 만료시 다음 필터로 넘기지 않음
             try {
-                username = jwtUtil.extractUsername(jwtToken);
+                user_id = jwtUtil.extractUsername(jwtToken);
             } catch (IllegalArgumentException e) {
                 System.out.println("Unable to get JWT Token");
             } catch (ExpiredJwtException e) {
@@ -63,9 +63,9 @@ public class JwtRequestFilter extends OncePerRequestFilter{
         }
 
         // 사용자 이름(아이디) 추출 , 현재 SecurityContext에 인증정보가 없는지 확인
-        if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
+        if(user_id != null && SecurityContextHolder.getContext().getAuthentication() == null){
             // 사용자 이름(아이디)가지고 현재 DB 있는지 검사 
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(user_id);
 
             if(jwtUtil.validateToken(jwtToken, userDetails)){
                 // 인증객체 생성

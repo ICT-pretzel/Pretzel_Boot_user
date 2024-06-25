@@ -41,7 +41,7 @@ public class AuthService {
                 new UsernamePasswordAuthenticationToken(user.getUser_id(), user.getPwd()));
 
             // 마지막 로그인 업데이트
-            int result = userMapper.last_login(user.getUser_id());
+            userMapper.updateUser(user);
 
             // 사용자의 아이디와 패스워드를 가지고 있다.
             final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUser_id());
