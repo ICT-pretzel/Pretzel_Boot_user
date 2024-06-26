@@ -29,10 +29,8 @@ public class NoticeController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestHeader("Authorization") String token, @RequestParam String question_title, @RequestParam String question_content) {
-        String jwtToken = token.replace("Bearer ", "");
-        JwtDecode jwtDecode = new JwtDecode(jwtToken);
-        int profileIdx = Integer.parseInt(jwtDecode.getProfile_idx());
+    public ResponseEntity<?> add(@RequestParam String profile_idx, @RequestParam String question_title, @RequestParam String question_content) {
+        int profileIdx = Integer.parseInt(profile_idx);
         return ResponseEntity.ok(noticeService.add(profileIdx, question_title, question_content));
     }
 }
