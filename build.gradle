@@ -64,6 +64,11 @@ dependencies {
 
 	// sns 로그인
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+	// json simple
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+
+	implementation 'com.google.code.gson:gson:2.8.9'
 }
 
 

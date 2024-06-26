@@ -63,5 +63,10 @@
         set birth = #{birth}, gender = #{gender}, like_thema = #{like_themaAsString} 
         where user_id = #{user_id}
      </update>
+
+     <insert id="toss_insert" parameterType="TossVO">
+        insert into toss(orderId, orderName, amount, approvedAt, user_id) 
+        values(#{orderId}, #{orderName}, #{amount}, #{approvedAt}, #{user_id})
+     </insert>
     
 </mapper>

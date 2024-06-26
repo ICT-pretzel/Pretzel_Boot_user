@@ -3,6 +3,7 @@ package com.ict.pretzel.ko.mapper;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ict.pretzel.vo.UserVO;
+import com.ict.pretzel.ko.vo.TossVO;
 
 @Mapper
 public interface UserMapper {
@@ -29,4 +30,5 @@ public interface UserMapper {
 
     int add_detail(UserVO user);
     
+    int toss_insert(TossVO toss);
 }
