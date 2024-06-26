@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -35,9 +36,9 @@ public class ProfileController {
 
     // 프로필 추가
     @PostMapping("/profile_insert")
-    public ResponseEntity<?> profile_insert(@RequestParam("img_file") MultipartFile img_file,
-        @RequestParam("name") String name, @RequestHeader("Authorization") String token) {
-        return profileService.profile_insert(img_file, name, token);
+    public ResponseEntity<?> profile_insert(@RequestHeader("Authorization") String token, 
+        @RequestParam("img_file") MultipartFile img_file, @ModelAttribute ProfileVO profile) {
+        return profileService.profile_insert(img_file, profile, token);
     }
     
     // 프로필 상세
@@ -48,9 +49,9 @@ public class ProfileController {
     
     // 프로필 수정
     @PostMapping("/profile_update")
-    public ResponseEntity<?> profile_update(@RequestParam("img_file") MultipartFile img_file,
-    @RequestParam("name") String name, @RequestParam("profile_idx") String profile_idx) {
-        return profileService.profile_update(img_file, name, profile_idx);
+    public ResponseEntity<?> profile_update(@RequestParam("img_file") MultipartFile img_file, 
+                                            @ModelAttribute ProfileVO profile) {
+        return profileService.profile_update(img_file, profile);
     }
     
     

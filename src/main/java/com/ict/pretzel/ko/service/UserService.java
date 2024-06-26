@@ -114,14 +114,5 @@ public class UserService {
         return ResponseEntity.ok(result);
     }
     
-    // sns 로그인 시 추가정보
-    public ResponseEntity<?> add_detail(String token, UserVO user){
-        JwtDecode jwtDecode = new JwtDecode(token);
-        user.setUser_id(jwtDecode.getUser_id()); 
-        int result = userMapper.add_detail(user);
-        return ResponseEntity.ok(result);
-    }
-    
-
 
 }

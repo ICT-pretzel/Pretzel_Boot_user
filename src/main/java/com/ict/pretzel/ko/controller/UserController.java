@@ -111,13 +111,5 @@ public class UserController {
         return userService.pwd_check(token, user.getPwd());
     }
     
-    // SNS 최초 로그인 후 회원정보 추가
-    @PostMapping("/add_detail")
-    public ResponseEntity<?> add_detail(@RequestHeader("Authorization") String token,
-                                        @RequestBody UserVO user) {
-        return userService.add_detail(token, user);
-    }
-    
-    
     
 }

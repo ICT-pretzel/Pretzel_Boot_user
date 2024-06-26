@@ -28,7 +28,5 @@ public interface UserMapper {
 
     void updateUser(UserVO uvo);
 
-    int add_detail(UserVO user);
-    
     int toss_insert(TossVO toss);
 }

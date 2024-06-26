@@ -53,12 +53,11 @@ public class ProfileService {
     @Value("${upload.path}")
     private String path;
 
-    public ResponseEntity<?> profile_insert(MultipartFile img_file, String name, String token){
+    public ResponseEntity<?> profile_insert(MultipartFile img_file, ProfileVO profile, String token){
         try {
             JwtDecode jwtDecode = new JwtDecode(token);
-            ProfileVO profile = new ProfileVO();
             profile.setUser_id(jwtDecode.getUser_id());
-            profile.setName(name);
+
             if (img_file.isEmpty()) {
                 profile.setImg_name("");
             }else {
@@ -70,6 +69,7 @@ public class ProfileService {
                 File out = new File(path, img_name);
                 FileCopyUtils.copy(in, out);
             }
+
             int result = profileMapper.profile_insert(profile);
             return ResponseEntity.ok(result);
         } catch (Exception e) {
@@ -81,6 +81,7 @@ public class ProfileService {
     // 프로필 상세
     public ResponseEntity<?> profile_detail(String profile_idx){
         ProfileVO profile = profileMapper.profile_detail(profile_idx);
+        System.out.println(profile.getLike_thema());
         if (profile != null) {
             return ResponseEntity.ok(profile);
         }
@@ -88,23 +89,23 @@ public class ProfileService {
     }
     
     // 프로필 수정
-    public ResponseEntity<?> profile_update(MultipartFile img_file, String name, String profile_idx){
+    public ResponseEntity<?> profile_update(MultipartFile img_file, ProfileVO profile){
         try {
             // 원래 프로필 정보 가져오기 
-            ProfileVO profile = profileMapper.profile_detail(profile_idx);
+            ProfileVO profile2 = profileMapper.profile_detail(profile.getProfile_idx());
             // 프로필 이름 수정
-            profile.setName(name);
+            profile2.setName(profile.getName());
             // 이미지 수정
             if (!img_file.isEmpty()) {
                 UUID uuid = UUID.randomUUID();
                 String img_name = uuid + "_" + img_file.getOriginalFilename();
-                profile.setImg_name(img_name);
+                profile2.setImg_name(img_name);
 				
                 byte[] in = img_file.getBytes();
                 File out = new File(path, img_name);
                 FileCopyUtils.copy(in, out);
             }
-            int result = profileMapper.profile_update(profile);
+            int result = profileMapper.profile_update(profile2);
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             System.out.println("profile_update : " + e);

@@ -18,8 +18,8 @@
     </select>
 
     <insert id="join" parameterType="UserVO">
-        insert into users(user_id, pwd, name, email, birth, gender, regdate, like_thema) 
-        values(#{user_id}, #{pwd}, #{name}, #{email}, #{birth}, #{gender}, sysdate(), #{like_themaAsString})
+        insert into users(user_id, pwd, name, email, regdate) 
+        values(#{user_id}, #{pwd}, #{name}, #{email}, NOW())
     </insert>
 
     <select id="find_id" parameterType="UserVO" resultType="String">
@@ -43,11 +43,8 @@
 
     <!-- sns가 처음 로그인 했을 때 -->
     <insert id="insertUser" parameterType="UserVO">
-        <!-- INSERT INTO users (id, password, email, phone, name, provider, kakao, naver, google) 
-        VALUES (#{id}, #{password}, #{email}, #{phone}, #{name}, #{provider}, 
-                                                                #{kakao}, #{naver}, #{google}) -->
-        INSERT INTO users (user_id, pwd, email, name, birth, gender) 
-        VALUES (#{user_id}, #{pwd}, #{email}, #{name}, #{birth}, #{gender})
+        INSERT INTO users (user_id, pwd, email, name) 
+        VALUES (#{user_id}, #{pwd}, #{email}, #{name})
     </insert>
 
     <!-- 처음이 아니면 업데이트-->
@@ -57,16 +54,10 @@
         where user_id = #{user_id}
     </update>
 
-    <!-- 추가정보 업데이트 -->
-     <update id="add_detail" parameterType="UserVO">
-        update users 
-        set birth = #{birth}, gender = #{gender}, like_thema = #{like_themaAsString} 
-        where user_id = #{user_id}
-     </update>
-
-     <insert id="toss_insert" parameterType="TossVO">
+    <!-- 토스 결제 정보 -->
+    <insert id="toss_insert" parameterType="TossVO">
         insert into toss(orderId, orderName, amount, approvedAt, user_id) 
         values(#{orderId}, #{orderName}, #{amount}, #{approvedAt}, #{user_id})
-     </insert>
+    </insert>
     
 </mapper>
