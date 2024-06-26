@@ -15,7 +15,6 @@ import com.ict.pretzel.jwt.JwtDecode;
 import com.ict.pretzel.jwt.service.MyUserDetailsService;
 import com.ict.pretzel.ko.service.AuthService;
 import com.ict.pretzel.ko.service.UserService;
-import com.ict.pretzel.vo.DataVO;
 import com.ict.pretzel.vo.UserVO;
 
 
