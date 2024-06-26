@@ -21,6 +21,12 @@ public interface UserMapper {
 
     int pwd_update(UserVO user);
 
-    int last_login(String user_id);
+    UserVO findUserByEmail(String email);
+
+    void insertUser(UserVO uvo);
+
+    void updateUser(UserVO uvo);
+
+    int add_detail(UserVO user);
     
 }

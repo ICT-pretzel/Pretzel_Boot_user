@@ -1,6 +1,7 @@
 package com.ict.pretzel.ko.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ict.pretzel.jwt.JWTUtil;
 import com.ict.pretzel.jwt.JwtDecode;
+import com.ict.pretzel.jwt.service.MyUserDetailsService;
 import com.ict.pretzel.ko.service.AuthService;
 import com.ict.pretzel.ko.service.UserService;
 import com.ict.pretzel.vo.UserVO;
@@ -23,10 +26,31 @@ public class UserController {
     @Autowired
     private AuthService authService;
     
+    @Autowired
+    private JWTUtil jwtUtil;
+    
+    @Autowired
+    private MyUserDetailsService myUserDetailsService;
+
     // 로그인
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserVO user) {
         return authService.login(user);
+    }
+    
+    // 유저 상세
+    @PostMapping("/user_detail")
+    public ResponseEntity<?> user_detail(@RequestHeader("Authorization") String token) throws Exception {
+        // 토큰 가지고 id 를 추출
+        JwtDecode jwtDecode = new JwtDecode(token);
+        // 추출한 id 로 사용자 정보 추출
+        UserVO uvo = myUserDetailsService.getUserDetail(jwtDecode.getUser_id());
+        if (uvo != null) {
+            return ResponseEntity.ok(uvo);
+        }else {
+            // 정보가 없으면 0 보내기
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("0");
+        }
     }
 
     // 유저 서비스
@@ -84,19 +108,16 @@ public class UserController {
     @PostMapping("/pwd_check")
     public ResponseEntity<?> pwd_check(@RequestHeader("Authorization") String token, 
                                         @RequestBody UserVO user) {
-        JwtDecode jwtDecode = new JwtDecode(token);
-        user.setUser_id(jwtDecode.getUser_id());
-        user.setPwd(user.getPwd());
-        return authService.login(user);
+        return userService.pwd_check(token, user.getPwd());
     }
     
-    // 유저 상세
-    @PostMapping("/detail")
-    public ResponseEntity<?> detail(@RequestHeader("Authorization") String token) {
-        JwtDecode jwtDecode = new JwtDecode(token);
-        return userService.detail(jwtDecode.getUser_id());
+    // SNS 최초 로그인 후 회원정보 추가
+    @PostMapping("/add_detail")
+    public ResponseEntity<?> add_detail(@RequestHeader("Authorization") String token,
+                                        @RequestBody UserVO user) {
+        return userService.add_detail(token, user);
     }
-
+    
     
     
 }

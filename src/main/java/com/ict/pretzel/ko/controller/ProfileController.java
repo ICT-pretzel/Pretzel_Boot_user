@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ict.pretzel.jwt.JwtDecode;
 import com.ict.pretzel.ko.service.ProfileService;
-import com.ict.pretzel.ko.vo.TokenVO;
 import com.ict.pretzel.vo.ProfileVO;
 import com.ict.pretzel.vo.UserVO;
 
@@ -28,38 +27,27 @@ public class ProfileController {
     private ProfileService profileService;
 
     // 로그인 후 프로필 리스트 보여주기
-    @PostMapping("/list")
-    public ResponseEntity<?> profile_list(@RequestBody TokenVO token) {
-        System.out.println(token.getUser_id());
-        return profileService.profile_list(token.getUser_id());
+    @PostMapping("/profile_list")
+    public ResponseEntity<?> profile_list(@RequestHeader("Authorization") String token) {
+        JwtDecode jwtDecode = new JwtDecode(token);
+        return profileService.profile_list(jwtDecode.getUser_id());
     }
 
-    // 프로필 선택시 토큰 만들어서 주기
-    @PostMapping("/login")
-    public ResponseEntity<?> profile_login(@RequestBody TokenVO token) {
-        return profileService.profile_login(token);
-    }
-    
     // 프로필 추가
-    @PostMapping("/insert")
+    @PostMapping("/profile_insert")
     public ResponseEntity<?> profile_insert(@RequestParam("img_file") MultipartFile img_file,
-        @RequestParam("name") String name, @RequestParam("user_id") String user_id) {
-            ProfileVO profile = new ProfileVO();
-            profile.setImg_file(img_file);
-            profile.setName(name);
-            profile.setUser_id(user_id);
-        return profileService.profile_insert(profile);
+        @RequestParam("name") String name, @RequestHeader("Authorization") String token) {
+        return profileService.profile_insert(img_file, name, token);
     }
     
     // 프로필 상세
-    @PostMapping("/detail")
-    public ResponseEntity<?> profile_detaile(@RequestHeader("Authorization") String token) {
-        JwtDecode jwtDecode = new JwtDecode(token);
-        return profileService.profile_detaile(jwtDecode.getProfile_idx());
+    @PostMapping("/profile_detail")
+    public ResponseEntity<?> profile_detail(@RequestBody ProfileVO profile) {
+        return profileService.profile_detail(profile.getProfile_idx());
     }
     
     // 프로필 수정
-    @PostMapping("/update")
+    @PostMapping("/profile_update")
     public ResponseEntity<?> profile_update(@RequestParam("img_file") MultipartFile img_file,
     @RequestParam("name") String name, @RequestParam("profile_idx") String profile_idx) {
         return profileService.profile_update(img_file, name, profile_idx);

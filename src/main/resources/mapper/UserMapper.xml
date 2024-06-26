@@ -36,10 +36,32 @@
         where user_id = #{user_id}
     </update>
 
-    <update id="last_login" parameterType="String">
-        update users 
-        set last_login = sysdate()
+    <!-- email로 users 테이블에 있는지 찾기 --> 
+    <select id="findUserByEmail" resultType="UserVO">
+        select * from users where email = #{email}
+    </select>
+
+    <!-- sns가 처음 로그인 했을 때 -->
+    <insert id="insertUser" parameterType="UserVO">
+        <!-- INSERT INTO users (id, password, email, phone, name, provider, kakao, naver, google) 
+        VALUES (#{id}, #{password}, #{email}, #{phone}, #{name}, #{provider}, 
+                                                                #{kakao}, #{naver}, #{google}) -->
+        INSERT INTO users (user_id, pwd, email, name, birth, gender) 
+        VALUES (#{user_id}, #{pwd}, #{email}, #{name}, #{birth}, #{gender})
+    </insert>
+
+    <!-- 처음이 아니면 업데이트-->
+    <update id="updateUser" parameterType="UserVO">
+        Update users
+        set last_login = NOW()
         where user_id = #{user_id}
     </update>
 
+    <!-- 추가정보 업데이트 -->
+     <update id="add_detail" parameterType="UserVO">
+        update users 
+        set birth = #{birth}, gender = #{gender}, like_thema = #{like_themaAsString} 
+        where user_id = #{user_id}
+     </update>
+    
 </mapper>
