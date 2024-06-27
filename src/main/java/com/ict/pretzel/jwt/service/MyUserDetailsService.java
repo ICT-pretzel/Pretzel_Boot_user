@@ -40,11 +40,7 @@ public class MyUserDetailsService implements UserDetailsService {
         // 공통 정보
         String email = oAuth2User.getAttribute("email");
         String name = oAuth2User.getAttribute("name");
-        //String phone = oAuth2User.getAttribute("phone");
         String id = "";
-        // 네이버 추가 정보
-        String birth = oAuth2User.getAttribute("birth");
-        String gender = oAuth2User.getAttribute("gender");
 
         // 카카오는 id 가 long 형으로 들어온다.(끄집어와서 바꿔야만 가능)
         if (provider.equals("kakao")) {
@@ -63,21 +59,7 @@ public class MyUserDetailsService implements UserDetailsService {
             uvo = new UserVO();
             uvo.setUser_id(id);
             uvo.setEmail(email);
-            //uvo.setPhone(phone != null ? phone : "000-0000-0000");
             uvo.setName(name != null ? name : "unknown");
-            //uvo.setProvider(provider);
-            uvo.setBirth(birth);
-            uvo.setGender(gender);
-
-            /* 
-            if (provider.equals("kakao")) {
-                uvo.setKakao(email);
-            }else if (provider.equals("naver")) {
-                uvo.setNaver(email);
-            }else if (provider.equals("google")){
-                uvo.setGoogle(email);
-            }
-            */
 
             userMapper.insertUser(uvo);
         }else {

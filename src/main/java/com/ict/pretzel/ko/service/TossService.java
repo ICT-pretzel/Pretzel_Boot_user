@@ -12,6 +12,7 @@ import java.util.Base64;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -24,6 +25,7 @@ public class TossService {
     @Autowired
     private UserMapper userMapper;
 
+    @Transactional
     public TossVO confirmPayment(String user_id, String paymentKey, String orderId, int amount) {
         try {
 
@@ -32,20 +34,16 @@ public class TossService {
             obj.put("amount", amount);
             obj.put("paymentKey", paymentKey);
 
-            // TODO: 개발자센터에 로그인해서 내 결제위젯 연동 키 > 시크릿 키를 입력하세요. 시크릿 키는 외부에 공개되면 안돼요.
-            // @docs https://docs.tosspayments.com/reference/using-api/api-keys
+            // 결제 위젯 시크릿 키
             String widgetSecretKey = "test_gsk_docs_OaPz8L5KdmQXkzRz3y47BMw6";
 
-            // 토스페이먼츠 API는 시크릿 키를 사용자 ID로 사용하고, 비밀번호는 사용하지 않습니다.
             // 비밀번호가 없다는 것을 알리기 위해 시크릿 키 뒤에 콜론을 추가합니다.
-            // @docs https://docs.tosspayments.com/reference/using-api/authorization#%EC%9D%B8%EC%A6%9D
             Base64.Encoder encoder = Base64.getEncoder();
             byte[] encodedBytes = encoder.encode((widgetSecretKey + ":").getBytes(StandardCharsets.UTF_8));
+            // 헤더에 보낼 인증 토큰
             String authorizations = "Basic " + new String(encodedBytes);
 
             // 결제 승인 API를 호출하세요.
-            // 결제를 승인하면 결제수단에서 금액이 차감돼요.
-            // @docs https://docs.tosspayments.com/guides/payment-widget/integration#3-결제-승인하기
             URL url = new URL("https://api.tosspayments.com/v1/payments/confirm");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("Authorization", authorizations);
@@ -56,9 +54,10 @@ public class TossService {
             OutputStream outputStream = connection.getOutputStream();
             outputStream.write(obj.toString().getBytes("UTF-8"));
 
+            // 결제승인 성공여부 확인
             int code = connection.getResponseCode();
             boolean isSuccess = code == 200;
-
+            
             InputStream responseStream = isSuccess ? connection.getInputStream() : connection.getErrorStream();
             Reader reader = new InputStreamReader(responseStream, StandardCharsets.UTF_8);
             Gson gson = new Gson();
@@ -73,15 +72,19 @@ public class TossService {
             toss.setOrderId(jsonObject.get("orderId").getAsString());
             toss.setApprovedAt(jsonObject.get("approvedAt").getAsString());
             toss.setOrderName(jsonObject.get("orderName").getAsString());
+            toss.setUser_id(user_id);
             System.out.println("금액 : " + toss.getAmount());
             System.out.println("결제 승인 시간 : " + toss.getApprovedAt());
             System.out.println("주문 번호 : " + toss.getOrderId());
             System.out.println("주문 이름 : " + toss.getOrderName());
+            System.out.println("주문 유저 : " + toss.getUser_id());
 
             int result = userMapper.toss_insert(toss);
+            result += userMapper.subs_update(toss);
 
-            return toss;
-
+            if (result >= 2) {
+                return toss;
+            }
         } catch (Exception e) {
             System.out.println("TossService : " + e);
         }

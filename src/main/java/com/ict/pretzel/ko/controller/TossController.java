@@ -20,22 +20,26 @@ public class TossController {
     private TossService tossService;
     
     @PostMapping("/confirm")
-    public ResponseEntity<TossVO> confirmPayment(@RequestBody TossVO toss, 
+    public ResponseEntity<TossVO> tossConfirm(@RequestBody TossVO toss, 
                     @RequestHeader("Authorization") String token) {
         try {
+            // 토큰에서 user_id 빼내기
             JwtDecode jwtDecode = new JwtDecode(token);
-            TossVO isConfirmed = tossService.confirmPayment(jwtDecode.getUser_id(),
+
+            // 결제 승인 처리 후 결제 정보 받기
+            TossVO result = tossService.confirmPayment(jwtDecode.getUser_id(),
                 toss.getPaymentKey(), toss.getOrderId(), toss.getAmount()
                 );
-            if (isConfirmed != null) {
-                System.out.println("토스오나...2");
-                return ResponseEntity.ok(isConfirmed);
+            
+            if (result != null) {
+                System.out.println("결제 성공");
+                return ResponseEntity.ok(result);
             } else {
-                System.out.println("토스오나...3");
+                System.out.println("결제 실패");
                 return ResponseEntity.status(400).body(null);
             }
         } catch (Exception e) {
-            System.out.println("컨트롤러" + e );
+            System.out.println("tossConfirm : " + e);
         }
         return null;
     }

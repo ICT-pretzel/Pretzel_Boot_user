@@ -30,22 +30,11 @@ public class CustomOAuth2userService extends DefaultOAuth2UserService{
             }
             String name = (String)response.get("name");
             String email = (String)response.get("email");
-            //String phone = (String)response.get("mobile");
-            String birthday = (String)response.get("birthday");
-            String birthyear = (String)response.get("birthyear");
-            String gender = (String)response.get("gender");
-            if (gender.equals("M")) {
-                gender = "1";
-            }else {
-                gender = "2";
-            }
+
             return new DefaultOAuth2User(oAuth2User.getAuthorities(), Map.of(
                 "email" , email,
                 "name" , name,
-                "id", response.get("id"),
-                //"phone", phone,
-                "birth", birthyear + "-" + birthday,
-                "gender", gender
+                "id", response.get("id")
             ), "email");
         }else if(provider.equals("kakao")){
             Map<String, Object> kakaoAccount = (Map<String,Object>) attributes.get("kakao_account");
