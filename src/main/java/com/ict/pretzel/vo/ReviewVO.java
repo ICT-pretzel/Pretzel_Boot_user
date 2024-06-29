@@ -4,5 +4,13 @@ import lombok.Data;
 
 @Data
 public class ReviewVO {
-    private String review_idx, movie_idx, profile_idx, rating, content, regdate, status, admin_id;
+    private String review_idx;
+    private String movie_idx;
+    private String profile_idx;
+    private String rating;
+    private String content;
+    private String regdate;
+    private String status;
+    private String admin_id;
+    private MovieVO movie;
 }
