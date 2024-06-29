@@ -29,4 +29,6 @@ public interface UserMapper {
     void updateUser(UserVO uvo);
 
     int toss_insert(TossVO toss);
+
+    int subs_update(TossVO toss);
 }

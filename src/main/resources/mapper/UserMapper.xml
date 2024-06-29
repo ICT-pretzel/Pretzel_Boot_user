@@ -59,5 +59,12 @@
         insert into toss(orderId, orderName, amount, approvedAt, user_id) 
         values(#{orderId}, #{orderName}, #{amount}, #{approvedAt}, #{user_id})
     </insert>
+
+    <!-- 구독권 업데이트 -->
+    <update id="subs_update" parameterType="TossVO">
+        update users 
+        set subs = #{orderName} 
+        where user_id = #{user_id}
+    </update>
     
 </mapper>
