@@ -72,11 +72,13 @@ public class TossService {
             toss.setOrderId(jsonObject.get("orderId").getAsString());
             toss.setApprovedAt(jsonObject.get("approvedAt").getAsString());
             toss.setOrderName(jsonObject.get("orderName").getAsString());
+            toss.setPaymentKey(jsonObject.get("paymentKey").getAsString());
             toss.setUser_id(user_id);
             System.out.println("금액 : " + toss.getAmount());
             System.out.println("결제 승인 시간 : " + toss.getApprovedAt());
             System.out.println("주문 번호 : " + toss.getOrderId());
             System.out.println("주문 이름 : " + toss.getOrderName());
+            System.out.println("주문 키 : " + toss.getPaymentKey());
             System.out.println("주문 유저 : " + toss.getUser_id());
 
             int result = userMapper.toss_insert(toss);
