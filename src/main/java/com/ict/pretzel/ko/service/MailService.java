@@ -20,7 +20,7 @@ public class MailService {
 			//	메일 내용
 			sendMail.setText(""
                     + "<table><tbody>"
-                    + "<tr><td><h2>Pretzel 메일 인증</h2></td></tr>"
+                    + "<tr><td><h2>비밀번호 찾기 - 인증번호를 입력해주세요.</h2></td></tr>"
                     + "<tr><td><font size='20px'>인증번호 : "+ randomNumber +"</font></td></tr>"
                     + "</tbody></table>");
 			//	받는 사람

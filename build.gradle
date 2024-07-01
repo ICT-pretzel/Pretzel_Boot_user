@@ -25,7 +25,7 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.json:json:20210307'
+	implementation 'org.json:json:20230227'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -46,6 +46,7 @@ dependencies {
     // implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
     // implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
 
+	/* jwt */
 	// 0.11.5
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
@@ -54,10 +55,6 @@ dependencies {
 	// 구글 스토리지 업로드용
 	implementation platform('com.google.cloud:libraries-bom:26.41.0')
 	implementation 'com.google.cloud:google-cloud-storage'
-	// jwt
-	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
-    implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
-    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 	 
 	// 이메일보내기
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
