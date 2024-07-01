@@ -56,8 +56,8 @@
 
     <!-- 토스 결제 정보 -->
     <insert id="toss_insert" parameterType="TossVO">
-        insert into toss(orderId, orderName, amount, approvedAt, user_id) 
-        values(#{orderId}, #{orderName}, #{amount}, #{approvedAt}, #{user_id})
+        insert into toss(orderId, orderName, amount, approvedAt, paymentKey, user_id) 
+        values(#{orderId}, #{orderName}, #{amount}, #{approvedAt}, #{paymentKey}, #{user_id})
     </insert>
 
     <!-- 구독권 업데이트 -->
