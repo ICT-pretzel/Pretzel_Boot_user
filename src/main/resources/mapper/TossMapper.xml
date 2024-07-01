@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.ict.pretzel.ko.mapper.TossMapper">
+
+    <!-- 토스 결제 정보 -->
+    <insert id="toss_insert" parameterType="TossVO">
+        insert into toss(orderId, orderName, amount, approvedAt, paymentKey, user_id) 
+        values(#{orderId}, #{orderName}, #{amount}, #{approvedAt}, #{paymentKey}, #{user_id})
+    </insert>
+
+    <!-- 구독권 업데이트 -->
+    <update id="subs_update" parameterType="TossVO">
+        update users 
+        set subs = #{orderName} 
+        where user_id = #{user_id}
+    </update>
+
+    <!-- 토스 결제 상세 -->
+     <select id="toss_detail" resultType="TossVO">
+        select * from toss where toss_idx = #{toss_idx}
+     </select>
+
+     <!-- 토스 결제 취소 -->
+     <update id="toss_cancel" parameterType="TossVO">
+        update toss 
+        set cancelReason = #{cancelReason}, canceledAt = #{canceledAt}, cancelAmount = #{cancelAmount} 
+        where toss_idx = #{toss_idx} 
+     </update>
+
+
+</mapper>

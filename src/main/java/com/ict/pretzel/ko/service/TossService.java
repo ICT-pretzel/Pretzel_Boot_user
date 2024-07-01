@@ -5,46 +5,57 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.ict.pretzel.ko.mapper.UserMapper;
+import com.ict.pretzel.ko.mapper.TossMapper;
 import com.ict.pretzel.ko.vo.TossVO;
 
 @Service
 public class TossService {
 
     @Autowired
-    private UserMapper userMapper;
+    private TossMapper tossMapper;
 
+    @Value("${toss.secret.key}")
+    private String secret_key;
+
+    @Value("${toss.url}")
+    private String toss_url;
+
+    // 토스 결제 승인
     @Transactional
-    public TossVO confirmPayment(String user_id, String paymentKey, String orderId, int amount) {
+    public TossVO tossConfirm(TossVO toss) {
         try {
 
             JSONObject obj = new JSONObject();
-            obj.put("orderId", orderId);
-            obj.put("amount", amount);
-            obj.put("paymentKey", paymentKey);
+            obj.put("orderId", toss.getOrderId());
+            obj.put("amount", toss.getAmount());
+            obj.put("paymentKey", toss.getPaymentKey());
 
-            // 결제 위젯 시크릿 키
-            String widgetSecretKey = "test_gsk_docs_OaPz8L5KdmQXkzRz3y47BMw6";
 
             // 비밀번호가 없다는 것을 알리기 위해 시크릿 키 뒤에 콜론을 추가합니다.
             Base64.Encoder encoder = Base64.getEncoder();
-            byte[] encodedBytes = encoder.encode((widgetSecretKey + ":").getBytes(StandardCharsets.UTF_8));
+            byte[] encodedBytes = encoder.encode((secret_key + ":").getBytes(StandardCharsets.UTF_8));
             // 헤더에 보낼 인증 토큰
             String authorizations = "Basic " + new String(encodedBytes);
 
             // 결제 승인 API를 호출하세요.
-            URL url = new URL("https://api.tosspayments.com/v1/payments/confirm");
+            URL url = new URL(toss_url.concat("confirm"));
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("Authorization", authorizations);
             connection.setRequestProperty("Content-Type", "application/json");
@@ -67,29 +78,63 @@ public class TossService {
 
             System.out.println("승인 결과 : " + jsonObject);
 
-            TossVO toss = new TossVO();
             toss.setAmount(jsonObject.get("totalAmount").getAsInt());
             toss.setOrderId(jsonObject.get("orderId").getAsString());
             toss.setApprovedAt(jsonObject.get("approvedAt").getAsString());
             toss.setOrderName(jsonObject.get("orderName").getAsString());
             toss.setPaymentKey(jsonObject.get("paymentKey").getAsString());
-            toss.setUser_id(user_id);
-            System.out.println("금액 : " + toss.getAmount());
-            System.out.println("결제 승인 시간 : " + toss.getApprovedAt());
-            System.out.println("주문 번호 : " + toss.getOrderId());
-            System.out.println("주문 이름 : " + toss.getOrderName());
-            System.out.println("주문 키 : " + toss.getPaymentKey());
-            System.out.println("주문 유저 : " + toss.getUser_id());
 
-            int result = userMapper.toss_insert(toss);
-            result += userMapper.subs_update(toss);
+            int result = tossMapper.toss_insert(toss);
+            result += tossMapper.subs_update(toss);
 
             if (result >= 2) {
                 return toss;
             }
         } catch (Exception e) {
-            System.out.println("TossService : " + e);
+            System.out.println("tossConfirm : " + e);
         }
         return null;
     }
+
+    // 토스 결제 취소
+    public ResponseEntity<?> tossCancel(String toss_idx, String cancelReason){
+        try {
+
+            TossVO toss = tossMapper.toss_detail(toss_idx);
+
+            // 비밀번호가 없다는 것을 알리기 위해 시크릿 키 뒤에 콜론을 추가합니다.
+            Base64.Encoder encoder = Base64.getEncoder();
+            byte[] encodedBytes = encoder.encode((secret_key + ":").getBytes(StandardCharsets.UTF_8));
+            // 헤더에 보낼 인증 토큰
+            String authorizations = "Basic " + new String(encodedBytes);
+
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(toss_url + toss.getPaymentKey() +"/cancel"))
+                .header("Authorization", authorizations)
+                .header("Content-Type", "application/json")
+                .method("POST", HttpRequest.BodyPublishers.ofString("{\"cancelReason\":\"" + cancelReason +"\"}"))
+                .build();
+            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println(response.body());
+
+            Gson gson = new Gson();
+            JsonObject jsonObject = gson.fromJson(response.body(), JsonObject.class);
+            JsonObject cancelObject = jsonObject.get("cancels").getAsJsonArray().get(0).getAsJsonObject();
+            toss.setCancelAmount(cancelObject.get("cancelAmount").getAsInt());
+            toss.setCanceledAt(cancelObject.get("canceledAt").getAsString());
+            toss.setCancelReason(cancelReason);
+
+            int result = tossMapper.toss_cancel(toss);
+
+            if (result > 0) {
+                System.out.println("결제 성공");
+                return ResponseEntity.ok(toss);
+            }
+        } catch (Exception e) {
+            System.out.println("tossCancel : " + e);
+        }
+        return ResponseEntity.status(400).body(null);
+    }
+
+
 }

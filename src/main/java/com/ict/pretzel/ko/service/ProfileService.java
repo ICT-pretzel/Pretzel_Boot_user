@@ -1,15 +1,12 @@
 package com.ict.pretzel.ko.service;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
@@ -20,7 +17,6 @@ import com.ict.pretzel.jwt.JwtDecode;
 import com.ict.pretzel.ko.mapper.ProfileMapper;
 import com.ict.pretzel.ko.mapper.UserMapper;
 import com.ict.pretzel.vo.ProfileVO;
-import com.ict.pretzel.vo.UserVO;
 
 @Service
 public class ProfileService {

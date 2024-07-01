@@ -19,17 +19,17 @@ public class TossController {
     @Autowired
     private TossService tossService;
     
+    // 토스 결제 승인
     @PostMapping("/confirm")
-    public ResponseEntity<TossVO> tossConfirm(@RequestBody TossVO toss, 
+    public ResponseEntity<?> tossConfirm(@RequestBody TossVO toss, 
                     @RequestHeader("Authorization") String token) {
-        try {
+        
             // 토큰에서 user_id 빼내기
             JwtDecode jwtDecode = new JwtDecode(token);
+            toss.setUser_id(jwtDecode.getUser_id());
 
             // 결제 승인 처리 후 결제 정보 받기
-            TossVO result = tossService.confirmPayment(jwtDecode.getUser_id(),
-                toss.getPaymentKey(), toss.getOrderId(), toss.getAmount()
-                );
+            TossVO result = tossService.tossConfirm(toss);
             
             if (result != null) {
                 System.out.println("결제 성공");
@@ -38,9 +38,15 @@ public class TossController {
                 System.out.println("결제 실패");
                 return ResponseEntity.status(400).body(null);
             }
-        } catch (Exception e) {
-            System.out.println("tossConfirm : " + e);
-        }
-        return null;
     }
+
+    // 토스 결제 취소
+    @PostMapping("/cancel")
+    public ResponseEntity<?> tossCancel(@RequestBody TossVO toss) {
+        return tossService.tossCancel(toss.getToss_idx(), toss.getCancelReason());
+    }
+    
+
+
+
 }

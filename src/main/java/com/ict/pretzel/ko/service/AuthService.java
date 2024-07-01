@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.ict.pretzel.jwt.JWTUtil;
 import com.ict.pretzel.jwt.JwtResponse;
-import com.ict.pretzel.ko.mapper.ProfileMapper;
 import com.ict.pretzel.ko.mapper.UserMapper;
 import com.ict.pretzel.vo.UserVO;
 
@@ -29,9 +28,6 @@ public class AuthService {
 
     @Autowired
     private JWTUtil jwtUtil;
-
-    @Autowired
-    private ProfileMapper profileMapper;
 
     public ResponseEntity<?> login(UserVO user){
         try {

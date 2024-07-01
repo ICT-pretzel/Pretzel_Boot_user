@@ -1,10 +1,11 @@
 package com.ict.pretzel.vo;
 
-import java.util.List;
-import java.util.StringJoiner;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Arrays;
+import java.util.List;
+import java.util.StringJoiner;
+
 import lombok.Data;
 
 @Data
@@ -28,7 +29,7 @@ public class ProfileVO {
         if (like_themaAsString != null && !like_themaAsString.isEmpty()) {
             this.like_thema = Arrays.asList(like_themaAsString.split(","));
         } else {
-            this.like_thema = null; // or initialize with an empty list if preferred
+            this.like_thema = null; 
         }
     }
 

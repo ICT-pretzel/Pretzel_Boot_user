@@ -1,18 +1,18 @@
 package com.ict.pretzel.ko.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.ict.pretzel.vo.UserVO;
-import com.ict.pretzel.ko.vo.TossVO;
 
 @Mapper
 public interface UserMapper {
 
-    UserVO login(String user_id) ;
+    UserVO login(@Param("user_id") String user_id);
     
-    int id_check(String user_id);
+    int id_check(@Param("user_id") String user_id);
     
-    int email_check(String email);
+    int email_check(@Param("email") String email);
 
     int join(UserVO user);
 
@@ -22,13 +22,10 @@ public interface UserMapper {
 
     int pwd_update(UserVO user);
 
-    UserVO findUserByEmail(String email);
+    UserVO findUserByEmail(@Param("email") String email);
 
     void insertUser(UserVO uvo);
 
     void updateUser(UserVO uvo);
 
-    int toss_insert(TossVO toss);
-
-    int subs_update(TossVO toss);
 }
