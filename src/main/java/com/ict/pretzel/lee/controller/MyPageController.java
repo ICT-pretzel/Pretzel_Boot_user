@@ -16,7 +16,6 @@ import com.ict.pretzel.vo.MovieVO;
 import com.ict.pretzel.vo.ProfileVO;
 import com.ict.pretzel.vo.QuestionVO;
 import com.ict.pretzel.vo.ReviewVO;
-import com.ict.pretzel.vo.UserVO;
 import com.ict.pretzel.vo.WishVO;
 
 @RestController

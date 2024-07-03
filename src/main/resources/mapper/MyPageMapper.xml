@@ -51,7 +51,7 @@
       <result property="poster_url" column="poster_url" />
       <result property="movie_grade" column="movie_grade" />
       <result property="runtime" column="runtime" />
-      <result property="release_year" column="release_year" />
+      <result property="release_date" column="release_date" />
       <result property="status" column="status" />
       <result property="insert_time" column="insert_time" />
       <result property="update_time" column="update_time" />
@@ -63,7 +63,7 @@
   </resultMap>
 
   <select id="reviewlist" resultMap="reviewResultMap">
-    SELECT r.*, m.tmdb_title, m.korea_title, m.english_title, m.thema, m.synopsis, m.movie_url, m.trailer_url, m.poster_url, m.movie_grade, m.runtime, m.release_year, m.status, m.insert_time, m.update_time, m.delete_time, m.admin_id, m.watch_stack, m.synchro
+    SELECT r.*, m.tmdb_title, m.korea_title, m.english_title, m.thema, m.synopsis, m.movie_url, m.trailer_url, m.poster_url, m.movie_grade, m.runtime, m.release_date, m.status, m.insert_time, m.update_time, m.delete_time, m.admin_id, m.watch_stack, m.synchro
     FROM reviews r
     JOIN movies m ON r.movie_idx = m.movie_idx
     WHERE r.profile_idx = #{profile_idx}

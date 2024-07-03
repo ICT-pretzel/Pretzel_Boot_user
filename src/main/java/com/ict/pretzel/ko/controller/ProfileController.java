@@ -53,7 +53,4 @@ public class ProfileController {
                                             @ModelAttribute ProfileVO profile) {
         return profileService.profile_update(img_file, profile);
     }
-    
-    
-
 }

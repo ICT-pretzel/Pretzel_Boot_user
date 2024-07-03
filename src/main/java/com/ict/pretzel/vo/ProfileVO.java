@@ -29,7 +29,7 @@ public class ProfileVO {
         if (like_themaAsString != null && !like_themaAsString.isEmpty()) {
             this.like_thema = Arrays.asList(like_themaAsString.split(","));
         } else {
-            this.like_thema = null; 
+            this.like_thema = null;
         }
     }
 
