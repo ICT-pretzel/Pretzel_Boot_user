@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.ict.pretzel.jung.mapper.MovieMapper">
+  <select id="movie_detail" parameterType="String" resultType="MovieVO">
+    select * 
+    from movies
+    where movie_idx = #{movie_idx}
+  </select>
+
+  <select id="cast_list" parameterType="String" resultType="CastVO">
+    select * 
+    from casts
+    where movie_idx = #{movie_idx}
+    order by orders ASC
+  </select>
+
+  <select id="crew_list" parameterType="String" resultType="CrewVO">
+    select * 
+    from crews
+    where movie_idx = #{movie_idx}
+    order by orders ASC
+  </select>
+
+  <select id="movie_review_list" parameterType="String" resultType="MovieReviewVO">
+    SELECT reviews.*, profiles.name, profiles.img_name, profiles.user_id
+    FROM reviews
+    JOIN profiles ON reviews.profile_idx = profiles.profile_idx
+    where movie_idx = #{movie_idx}
+    order by regdate DESC
+  </select>
+
+</mapper>

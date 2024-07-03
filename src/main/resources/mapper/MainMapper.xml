@@ -16,4 +16,108 @@
     order by rand()
     limit 10;
   </select>
+
+  <select id="age_gender_list" parameterType="StatisticsVO" resultType="MovieVO">
+    SELECT *
+    FROM movies
+    order by
+    <choose>
+      <when test="gender=='man'">
+        <choose>
+          <when test="age == '10'">
+            m_teen_stack DESC
+          </when>
+          <when test="age == '20'">
+            m_twenty_stack DESC
+          </when>
+          <when test="age == '30'">
+            m_thirty_stack DESC
+          </when>
+          <when test="age == '40'">
+            m_forty_stack DESC
+          </when>
+          <when test="age == '50'">
+            m_fifty_stack DESC
+          </when>
+        </choose>
+      </when>
+      <when test="gender=='woman'">
+        <choose>
+          <when test="age == '10'">
+            w_teen_stack DESC
+          </when>
+          <when test="age == '20'">
+            w_twenty_stack DESC
+          </when>
+          <when test="age == '30'">
+            w_thirty_stack DESC
+          </when>
+          <when test="age == '40'">
+            w_forty_stack DESC
+          </when>
+          <when test="age == '50'">
+            w_fifty_stack DESC
+          </when>
+        </choose>
+      </when>
+    </choose>
+    limit 10;
+  </select>
+
+  <select id="thema_gender_list" parameterType="StatisticsVO" resultType="MovieVO">
+    SELECT *
+    FROM movies
+    where thema=#{thema}
+    ORDER BY 
+    <choose>
+      <when test="gender == 'man'">
+        man_stack DESC
+      </when>
+      <when test="gender == 'woman'">
+        woman_stack DESC
+      </when>
+    </choose>
+    limit 10;
+  </select>
+  <select id="thema_age_list" parameterType="StatisticsVO" resultType="MovieVO">
+    SELECT *,
+    <choose>
+      <when test="age == '10'">
+        (w_teen_stack+m_teen_stack)
+      </when>
+      <when test="age == '20'">
+        (w_twenty_stack+m_twenty_stack)
+      </when>
+      <when test="age == '30'">
+        (w_thirty_stack+m_thirty_stack)
+      </when>
+      <when test="age == '40'">
+        (w_forty_stack+m_forty_stack)
+      </when>
+      <when test="age == '50'">
+        (w_fifty_stack+m_fifty_stack)
+      </when>
+    </choose>
+    AS sum
+    FROM movies
+    where thema = #{thema}
+    ORDER BY sum DESC
+    limit 10;
+  </select>
+  <select id="day_list" resultType="MovieVO">
+    select * from day_list
+    order by stack DESC
+    limit 10;
+  </select>
+  <select id="day_backup_list" resultType="MovieVO">
+    select * from day_list_backup
+    order by stack DESC
+    limit 10;
+  </select>
+  <select id="spare_list" resultType="MovieVO">
+    select *, (man_stack+woman_stack) AS sum 
+    from movies
+    order by sum DESC
+    limit 10;
+  </select>
 </mapper>
