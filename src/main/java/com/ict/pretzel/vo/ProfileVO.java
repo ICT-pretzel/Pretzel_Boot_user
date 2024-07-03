@@ -43,17 +43,6 @@ public class ProfileVO {
         return joiner.toString();
     }
 
-<<<<<<< HEAD
-    public void setLike_thema(String like_themaAsString) {
-        if (like_themaAsString != null && !like_themaAsString.isEmpty()) {
-            this.like_thema = Arrays.asList(like_themaAsString.split(","));
-        } else {
-            this.like_thema = null;
-        }
-    }
-
-=======
->>>>>>> origin/main
     // birth 설정 시 자동으로 나이를 계산하여 age에 저장
     public void setBirth(String birth) {
         this.birth = birth;
