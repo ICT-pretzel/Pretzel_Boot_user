@@ -5,12 +5,21 @@
   
 <mapper namespace="com.ict.pretzel.ko.mapper.ProfileMapper">
 
-  <select id="profile_list" parameterType="String" resultType="ProfileVO">
+  <select id="profile_list" resultType="ProfileVO">
     SELECT * FROM profiles WHERE user_id = #{user_id}
   </select>
 
-  <select id="profile_detail" parameterType="String" resultType="ProfileVO">
-    select p.*, u.subs
+  <select id="profile_detail" resultType="ProfileVO">
+    select 
+        p.profile_idx,
+        p.name,
+        p.img_name,
+        p.regdate,
+        p.user_id,
+        p.birth,
+        p.gender,
+        u.subs,
+        p.like_thema as like_themaAsString  <!-- 문자열로 매핑 -->
     from profiles p
     left join users u on p.user_id = u.user_id
     where p.profile_idx = #{profile_idx}

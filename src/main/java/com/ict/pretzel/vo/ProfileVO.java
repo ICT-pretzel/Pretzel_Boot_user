@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 @Data
@@ -13,7 +15,23 @@ public class ProfileVO {
     private String profile_idx, name, img_name, regdate, user_id, subs, birth, gender;
     private int age;
     private List<String> like_thema;
+    private MultipartFile img_file;
+
+    // like_thema를 문자열로 저장하기 위한 임시 필드
+    private String like_themaAsString;
     
+    // DB 에서 가져온 좋아하는 장르 
+    public void setLike_themaAsString(String like_themaAsString) {
+        this.like_themaAsString = like_themaAsString;
+        // 문자열을 리스트로 변환하여 필드에 저장
+        if (like_themaAsString != null && !like_themaAsString.isEmpty()) {
+            this.like_thema = Arrays.asList(like_themaAsString.split(","));
+        } else {
+            this.like_thema = null; 
+        }
+    }
+    
+    // DB 에 넣을 좋아하는 장르
     public String getLike_themaAsString() {
         if (like_thema == null || like_thema.isEmpty()) {
             return "";
@@ -23,14 +41,6 @@ public class ProfileVO {
             joiner.add(thema);
         }
         return joiner.toString();
-    }
-
-    public void setLike_thema(String like_themaAsString) {
-        if (like_themaAsString != null && !like_themaAsString.isEmpty()) {
-            this.like_thema = Arrays.asList(like_themaAsString.split(","));
-        } else {
-            this.like_thema = null; 
-        }
     }
 
     // birth 설정 시 자동으로 나이를 계산하여 age에 저장

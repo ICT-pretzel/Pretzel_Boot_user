@@ -51,7 +51,7 @@ public class UserService {
         if (user_id != null) {
             return ResponseEntity.ok(user_id);
         }
-        return ResponseEntity.ok("0");
+        return ResponseEntity.ok(0);
     }
 
     @Autowired
@@ -82,7 +82,7 @@ public class UserService {
             map.put("number", randomNumber);
             return ResponseEntity.ok(map);
         }
-        return ResponseEntity.ok("0");
+        return ResponseEntity.ok(0);
     }
 
     @Autowired
@@ -96,11 +96,11 @@ public class UserService {
             Authentication authentication 
             = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(jwtDecode.getUser_id(), cpwd));
-            return ResponseEntity.ok("1");
+            return ResponseEntity.ok(1);
         } catch (Exception e) {
             // 틀리면 0 리턴
             System.out.println("login : " + e);
-            return ResponseEntity.status(401).body("0");
+            return ResponseEntity.status(401).body(0);
         }
     }
 
