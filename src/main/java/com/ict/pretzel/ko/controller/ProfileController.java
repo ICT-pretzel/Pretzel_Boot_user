@@ -1,10 +1,7 @@
 package com.ict.pretzel.ko.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ict.pretzel.jwt.JwtDecode;
 import com.ict.pretzel.ko.service.ProfileService;
 import com.ict.pretzel.vo.ProfileVO;
-import com.ict.pretzel.vo.UserVO;
 
 
 @RestController
@@ -37,8 +33,9 @@ public class ProfileController {
     // 프로필 추가
     @PostMapping("/profile_insert")
     public ResponseEntity<?> profile_insert(@RequestHeader("Authorization") String token, 
-        @RequestParam("img_file") MultipartFile img_file, @ModelAttribute ProfileVO profile) {
-        return profileService.profile_insert(img_file, profile, token);
+        ProfileVO profile) {
+            System.out.println("########장르 리스트 : " + profile.getLike_thema());
+        return profileService.profile_insert(profile, token);
     }
     
     // 프로필 상세
@@ -49,8 +46,7 @@ public class ProfileController {
     
     // 프로필 수정
     @PostMapping("/profile_update")
-    public ResponseEntity<?> profile_update(@RequestParam("img_file") MultipartFile img_file, 
-                                            @ModelAttribute ProfileVO profile) {
-        return profileService.profile_update(img_file, profile);
+    public ResponseEntity<?> profile_update(ProfileVO profile) {
+        return profileService.profile_update(profile);
     }
 }
