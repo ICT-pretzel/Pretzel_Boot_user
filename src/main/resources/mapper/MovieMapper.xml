@@ -9,6 +9,12 @@
     from movies
     where movie_idx = #{movie_idx}
   </select>
+  
+  <insert id="real_stackup" parameterType="String">
+    INSERT INTO real_time_stack (movie_idx)
+    VALUES (#{movie_idx})
+    ON DUPLICATE KEY UPDATE stack = stack + 1;
+  </insert>
 
   <select id="cast_list" parameterType="String" resultType="CastVO">
     select * 

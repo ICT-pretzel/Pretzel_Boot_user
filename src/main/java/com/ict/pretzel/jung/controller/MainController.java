@@ -107,22 +107,24 @@ public class MainController {
 			for (String k : select_list) {
 				System.out.println(k);
 			}
-			List<MovieVO> result = null;
+			List<String> rand_result = null;
+			List<MovieVO> movie_result = null;
+			Map<String,Object> result = null;
 			if (select_list.contains("age") &&select_list.contains("gender")) {
 				System.out.println("age_gender_list");
 				statisticsVO.setAge(rand_map.get("age"));
 				statisticsVO.setGender(rand_map.get("gender"));
-				result = mainService.age_gender_list(statisticsVO);
+				movie_result = mainService.age_gender_list(statisticsVO);
 			}else if (select_list.contains("thema") &&select_list.contains("gender")) {
 				System.out.println("thema_gender_list");
 				statisticsVO.setThema(rand_map.get("thema"));
 				statisticsVO.setGender(rand_map.get("gender"));
-				result =mainService.thema_gender_list(statisticsVO);
+				movie_result =mainService.thema_gender_list(statisticsVO);
 			}else if (select_list.contains("thema") &&select_list.contains("age")) {
 				System.out.println("thema_age_list");
 				statisticsVO.setThema(rand_map.get("thema"));
 				statisticsVO.setAge(rand_map.get("age"));
-				result = mainService.thema_age_list(statisticsVO);
+				movie_result = mainService.thema_age_list(statisticsVO);
 			}
 			return ResponseEntity.ok(result);
 			
