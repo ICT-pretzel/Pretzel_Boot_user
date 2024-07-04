@@ -2,14 +2,11 @@ package com.ict.pretzel.ko.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.ict.pretzel.jwt.JwtDecode;
 import com.ict.pretzel.ko.service.ProfileService;
@@ -46,7 +43,15 @@ public class ProfileController {
     
     // 프로필 수정
     @PostMapping("/profile_update")
-    public ResponseEntity<?> profile_update(ProfileVO profile) {
+    public ResponseEntity<?> profile_update(@RequestBody ProfileVO profile) {
         return profileService.profile_update(profile);
     }
+    
+    // 프로필 삭제
+    @PostMapping("/profile_delete")
+    public ResponseEntity<?> profile_delete(@RequestBody ProfileVO profile) {
+        return profileService.profile_delete(profile.getProfile_idx());
+    }
+    
+
 }
