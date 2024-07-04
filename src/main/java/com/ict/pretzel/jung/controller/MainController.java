@@ -107,24 +107,46 @@ public class MainController {
 			for (String k : select_list) {
 				System.out.println(k);
 			}
-			List<String> rand_result = null;
-			List<MovieVO> movie_result = null;
-			Map<String,Object> result = null;
+			List<String> select_keyword = new ArrayList<>();
+			List<String> select_value = new ArrayList<>();
+			List<MovieVO> movie_result = new ArrayList<>();
+			Map<String,Object> result = new HashMap<>();
 			if (select_list.contains("age") &&select_list.contains("gender")) {
-				System.out.println("age_gender_list");
+				select_keyword.add("age");
+				select_keyword.add("gender");
+				select_value.add(rand_map.get("age"));
+				select_value.add(rand_map.get("gender"));
 				statisticsVO.setAge(rand_map.get("age"));
 				statisticsVO.setGender(rand_map.get("gender"));
 				movie_result = mainService.age_gender_list(statisticsVO);
+				result.put("select_keyword", select_keyword);
+				result.put("select_value", select_value);
+				result.put("movie_result", movie_result);
+				return ResponseEntity.ok(result);
 			}else if (select_list.contains("thema") &&select_list.contains("gender")) {
-				System.out.println("thema_gender_list");
+				select_keyword.add("thema");
+				select_keyword.add("gender");
+				select_value.add(rand_map.get("thema"));
+				select_value.add(rand_map.get("gender"));
 				statisticsVO.setThema(rand_map.get("thema"));
 				statisticsVO.setGender(rand_map.get("gender"));
 				movie_result =mainService.thema_gender_list(statisticsVO);
+				result.put("select_keyword", select_keyword);
+				result.put("select_value", select_value);
+				result.put("movie_result", movie_result);
+				return ResponseEntity.ok(result);
 			}else if (select_list.contains("thema") &&select_list.contains("age")) {
-				System.out.println("thema_age_list");
+				select_keyword.add("thema");
+				select_keyword.add("age");
+				select_value.add(rand_map.get("thema"));
+				select_value.add(rand_map.get("age"));
 				statisticsVO.setThema(rand_map.get("thema"));
 				statisticsVO.setAge(rand_map.get("age"));
 				movie_result = mainService.thema_age_list(statisticsVO);
+				result.put("select_keyword", select_keyword);
+				result.put("select_value", select_value);
+				result.put("movie_result", movie_result);
+				return ResponseEntity.ok(result);
 			}
 			return ResponseEntity.ok(result);
 			
