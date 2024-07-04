@@ -30,13 +30,18 @@ public class TossController {
             return tossService.tossConfirm(toss);
     }
 
+    // 토스 결제 리스트
+    @PostMapping("/toss_list")
+    public ResponseEntity<?> tossList() {
+        return tossService.tossList();
+    }
+    
+
     // 토스 결제 취소
     @PostMapping("/cancel")
     public ResponseEntity<?> tossCancel(@RequestBody TossVO toss) {
         return tossService.tossCancel(toss.getToss_idx(), toss.getCancelReason());
     }
     
-
-
 
 }
