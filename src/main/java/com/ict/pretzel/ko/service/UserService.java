@@ -49,6 +49,10 @@ public class UserService {
     public ResponseEntity<?> find_id(UserVO user){
         String user_id = userMapper.find_id(user);
         if (user_id != null) {
+            UserVO user_info = userMapper.login(user_id);
+            if(user_info.getPwd() == null){
+                return ResponseEntity.ok(1);
+            }
             return ResponseEntity.ok(user_id);
         }
         return ResponseEntity.ok(0);
@@ -92,15 +96,16 @@ public class UserService {
     public ResponseEntity<?> pwd_check(String token, String cpwd){
         try {
             JwtDecode jwtDecode = new JwtDecode(token);
-            // 로그인 정보가 DB 에 있는지 여부 체크
-            Authentication authentication 
-            = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(jwtDecode.getUser_id(), cpwd));
-            return ResponseEntity.ok(1);
+
+            UserVO user = userMapper.login(jwtDecode.getUser_id());
+            if (passwordEncoder.matches(cpwd, user.getPwd())) {
+                return ResponseEntity.ok(1);
+            }
+            return ResponseEntity.ok(0);
         } catch (Exception e) {
             // 틀리면 0 리턴
             System.out.println("login : " + e);
-            return ResponseEntity.status(401).body(0);
+            return ResponseEntity.ok(0);
         }
     }
 

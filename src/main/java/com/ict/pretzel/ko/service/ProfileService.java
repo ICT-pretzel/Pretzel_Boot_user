@@ -37,17 +37,19 @@ public class ProfileService {
             profile.setUser_id(jwtDecode.getUser_id());
 
             // 이미지 저장
-            MultipartFile img_file = profile.getImg_file();
-            if (img_file == null || img_file.isEmpty()) {
-                profile.setImg_name("");
-            }else {
-                UUID uuid = UUID.randomUUID();
-                String img_name = uuid + "_" + img_file.getOriginalFilename();
-                profile.setImg_name(img_name);
-				
-                byte[] in = img_file.getBytes();
-                File out = new File(path, img_name);
-                FileCopyUtils.copy(in, out);
+            if (profile.getImg_file() != null) {
+                MultipartFile img_file = profile.getImg_file();
+                if (img_file == null || img_file.isEmpty()) {
+                    profile.setImg_name("");
+                }else {
+                    UUID uuid = UUID.randomUUID();
+                    String img_name = uuid + "_" + img_file.getOriginalFilename();
+                    profile.setImg_name(img_name);
+                    
+                    byte[] in = img_file.getBytes();
+                    File out = new File(path, img_name);
+                    FileCopyUtils.copy(in, out);
+                }
             }
             int result = profileMapper.profile_insert(profile);
             return ResponseEntity.ok(result);

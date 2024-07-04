@@ -27,11 +27,17 @@ public class ProfileController {
         return profileService.profile_list(jwtDecode.getUser_id());
     }
 
-    // 프로필 추가
+    // 프로필 추가(이미지 있을때)
     @PostMapping("/profile_insert")
     public ResponseEntity<?> profile_insert(@RequestHeader("Authorization") String token, 
-        ProfileVO profile) {
-            System.out.println("########장르 리스트 : " + profile.getLike_thema());
+                                            ProfileVO profile) {
+        return profileService.profile_insert(profile, token);
+    }
+
+    // 프로필 추가(이미지 없을때)
+    @PostMapping("/profile_insert2")
+    public ResponseEntity<?> profile_insert2(@RequestHeader("Authorization") String token, 
+                                            @RequestBody ProfileVO profile) {
         return profileService.profile_insert(profile, token);
     }
     
@@ -41,9 +47,15 @@ public class ProfileController {
         return profileService.profile_detail(profile.getProfile_idx());
     }
     
-    // 프로필 수정
+    // 프로필 수정(이미지 있을때)
     @PostMapping("/profile_update")
-    public ResponseEntity<?> profile_update(@RequestBody ProfileVO profile) {
+    public ResponseEntity<?> profile_update(ProfileVO profile) {
+        return profileService.profile_update(profile);
+    }
+
+    // 프로필 수정(이미지 없을때)
+    @PostMapping("/profile_update2")
+    public ResponseEntity<?> profile_update2(@RequestBody ProfileVO profile) {
         return profileService.profile_update(profile);
     }
     
