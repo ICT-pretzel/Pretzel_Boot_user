@@ -46,7 +46,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             String token = jwtUtil.generateToken(userDetails);
             System.out.println("#####token : " + token);
             response.addHeader("Authorization", "Bearer " + token);
-            response.sendRedirect("http://localhost:3000?token=" + token);
+            response.sendRedirect("http://localhost:3000/inout?token=" + token);
         } catch (Exception e) {
             e.printStackTrace();
             // 스프링 자체의 로그인 페이지
