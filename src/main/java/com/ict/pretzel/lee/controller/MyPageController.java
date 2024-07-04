@@ -40,7 +40,7 @@ public class MyPageController {
     }
 
     @GetMapping("/wishlist")
-    public ResponseEntity<List<WishVO>> wishlist(@RequestBody ProfileVO profile) {
+    public ResponseEntity<List<MovieVO>> wishlist(@RequestBody ProfileVO profile) {
         int profileIdx = Integer.parseInt(profile.getProfile_idx());
         return ResponseEntity.ok(myPageService.wishlist(profileIdx));
     }

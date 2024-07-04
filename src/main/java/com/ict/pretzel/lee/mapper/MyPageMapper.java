@@ -16,7 +16,7 @@ public interface MyPageMapper {
 
     List<MovieVO> watchlist(@Param("profile_idx") int profileIdx);
 
-    List<WishVO> wishlist(@Param("profile_idx") int profileIdx);
+    List<MovieVO> wishlist(@Param("profile_idx") int profileIdx);
 
     List<QuestionVO> questionlist(@Param("profile_idx") int profileIdx);
 

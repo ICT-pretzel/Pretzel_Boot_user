@@ -24,7 +24,7 @@ public class MyPageService {
         return myPageMapper.watchlist(profileIdx);
     }
 
-    public List<WishVO> wishlist(int profileIdx) {
+    public List<MovieVO> wishlist(int profileIdx) {
         return myPageMapper.wishlist(profileIdx);
     }
 
