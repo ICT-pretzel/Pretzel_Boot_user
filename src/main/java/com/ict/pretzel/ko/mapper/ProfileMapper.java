@@ -18,4 +18,5 @@ public interface ProfileMapper {
     
     int profile_update(ProfileVO profile);
 
+    int profile_delete(@Param("profile_idx") String profile_idx);
 }

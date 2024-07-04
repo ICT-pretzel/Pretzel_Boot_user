@@ -21,9 +21,8 @@ public class TossController {
     
     // 토스 결제 승인
     @PostMapping("/confirm")
-    public ResponseEntity<?> tossConfirm(@RequestBody TossVO toss, 
-                    @RequestHeader("Authorization") String token) {
-        
+    public ResponseEntity<?> tossConfirm(@RequestHeader("Authorization") String token, 
+                                        @RequestBody TossVO toss) {
             // 토큰에서 user_id 빼내기
             JwtDecode jwtDecode = new JwtDecode(token);
             toss.setUser_id(jwtDecode.getUser_id());

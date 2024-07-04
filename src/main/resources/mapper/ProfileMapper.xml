@@ -36,4 +36,8 @@
     where profile_idx = #{profile_idx}
   </update>
 
+  <delete id="profile_delete">
+    delete from profiles where profile_idx = #{profile_idx}
+  </delete>
+
 </mapper>

@@ -90,5 +90,13 @@ public class ProfileService {
         return ResponseEntity.ok(0);
     }
 
-    
+    // 프로필 삭제
+    public ResponseEntity<?> profile_delete(String profile_idx) {
+
+        int result = profileMapper.profile_delete(profile_idx);
+
+        return ResponseEntity.ok(result);
+    }
+
+
 }
