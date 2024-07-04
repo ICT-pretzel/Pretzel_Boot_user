@@ -24,6 +24,13 @@ public class MovieService {
         }
         return null;
 	}
+	public int real_stackup(String movie_idx) {
+        int result = movieMapper.real_stackup(movie_idx);
+        if (result > 0) {
+            return 1;
+        }
+        return 0;
+	}
 	public List<CastVO> cast_list(String movie_idx) {
         List<CastVO> result = movieMapper.cast_list(movie_idx);
         if (result != null) {

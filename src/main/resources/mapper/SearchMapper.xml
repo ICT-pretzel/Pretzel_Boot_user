@@ -8,5 +8,44 @@
     select *
     from movies
     where thema=#{thema}
+    and status = 1
+  </select>
+
+  <select id="select_movie" parameterType="String" resultType="MovieVO">
+    select * from movies
+    where korea_title like CONCAT('%', #{keyword}, '%')
+    or english_title like CONCAT('%', #{keyword}, '%')
+    and status = 1
+    ORDER BY korea_title ASC
+  </select>
+
+  <select id="select_cast" parameterType="String" resultType="CastMovieVO">
+    SELECT casts.cast_name,casts.role,casts.movie_idx,movies.korea_title,movies.english_title,movies.thema,movies.poster_url,movies.movie_grade,movies.status
+    FROM casts
+    JOIN movies ON casts.movie_idx = movies.movie_idx
+    where cast_name like CONCAT('%', #{keyword}, '%')
+    and movies.status = 1
+  </select>
+
+  <select id="realtime_list" resultType="MovieVO">
+    select real_time_list.*, movies.* 
+    from real_time_list
+    join movies on real_time_list.movie_idx = movies.movie_idx
+    order by real_time_list.stack DESC
+    limit 10;
+  </select>
+
+  <select id="add_list" parameterType="RealtimeOptionVO" resultType="MovieVO">
+    SELECT * 
+    FROM movies 
+    WHERE status = 1
+    <if test="mir_idx != null and mir_idx.size > 0">
+      AND movie_idx NOT IN
+      <foreach item="idx" collection="mir_idx" open="(" separator="," close=")">
+        #{idx}
+      </foreach>
+    </if>
+    order by rand()
+    limit #{add_num}
   </select>
 </mapper>

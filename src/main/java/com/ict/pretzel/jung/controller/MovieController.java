@@ -16,8 +16,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
@@ -31,6 +29,8 @@ public class MovieController {
 	public ResponseEntity<?> movie_detail(@RequestParam String movie_idx) {
 		try {
 			MovieVO result = movieService.movie_detail(movie_idx);
+			int real_stack = movieService.real_stackup(movie_idx);
+	
 			return ResponseEntity.ok(result);
 			
 		} catch (Exception e) {
@@ -71,5 +71,4 @@ public class MovieController {
 			return ResponseEntity.ok("0");
 		}
 	}
-
 }

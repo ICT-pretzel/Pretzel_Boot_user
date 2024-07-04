@@ -6,6 +6,7 @@
 <mapper namespace="com.ict.pretzel.jung.mapper.MainMapper">
   <select id="recent_list" resultType="MovieVO">
     select * from movies
+    where status = 1
     order by insert_time DESC
     limit 10;
   </select>
@@ -13,6 +14,7 @@
   <select id="thema_list" parameterType="String" resultType="MovieVO">
     select * from movies
     where thema=#{thema}
+    and status = 1
     order by rand()
     limit 10;
   </select>
@@ -20,6 +22,7 @@
   <select id="age_gender_list" parameterType="StatisticsVO" resultType="MovieVO">
     SELECT *
     FROM movies
+    where status = 1
     order by
     <choose>
       <when test="gender=='man'">
@@ -68,6 +71,7 @@
     SELECT *
     FROM movies
     where thema=#{thema}
+    and and status = 1
     ORDER BY 
     <choose>
       <when test="gender == 'man'">
@@ -79,6 +83,7 @@
     </choose>
     limit 10;
   </select>
+
   <select id="thema_age_list" parameterType="StatisticsVO" resultType="MovieVO">
     SELECT *,
     <choose>
@@ -101,22 +106,31 @@
     AS sum
     FROM movies
     where thema = #{thema}
+    and status = 1
     ORDER BY sum DESC
     limit 10;
   </select>
+
   <select id="day_list" resultType="MovieVO">
-    select * from day_list
-    order by stack DESC
+    select day_list.*, movies.* 
+    from day_list
+    join movies on day_list.movie_idx = movies.movie_idx
+    order by day_list.stack DESC
     limit 10;
   </select>
+
   <select id="day_backup_list" resultType="MovieVO">
-    select * from day_list_backup
-    order by stack DESC
+    select day_list_backup.*, movies.* 
+    from day_list_backup
+    join movies on day_list_backup.movie_idx = movies.movie_idx
+    order by day_list_backup.stack DESC
     limit 10;
   </select>
+
   <select id="spare_list" resultType="MovieVO">
     select *, (man_stack+woman_stack) AS sum 
     from movies
+    where status = 1
     order by sum DESC
     limit 10;
   </select>
