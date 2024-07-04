@@ -39,7 +39,7 @@ public class TossService {
 
     // 토스 결제 승인
     @Transactional
-    public TossVO tossConfirm(TossVO toss) {
+    public ResponseEntity<?> tossConfirm(TossVO toss) {
         try {
 
             JSONObject obj = new JSONObject();
@@ -84,16 +84,14 @@ public class TossService {
             toss.setOrderName(jsonObject.get("orderName").getAsString());
             toss.setPaymentKey(jsonObject.get("paymentKey").getAsString());
 
-            int result = tossMapper.toss_insert(toss);
-            result += tossMapper.subs_update(toss);
+            tossMapper.toss_insert(toss);
+            tossMapper.subs_update(toss);
 
-            if (result >= 2) {
-                return toss;
-            }
+            return ResponseEntity.ok(toss);
         } catch (Exception e) {
             System.out.println("tossConfirm : " + e);
         }
-        return null;
+        return ResponseEntity.ok(0);
     }
 
     // 토스 결제 취소
@@ -133,7 +131,7 @@ public class TossService {
         } catch (Exception e) {
             System.out.println("tossCancel : " + e);
         }
-        return ResponseEntity.status(400).body(null);
+        return ResponseEntity.ok(0);
     }
 
 

@@ -70,21 +70,23 @@ public class ProfileService {
         try {
             // 원래 프로필 정보 가져오기 
             ProfileVO original_profile = profileMapper.profile_detail(profile.getProfile_idx());
-            // 프로필 이름 수정
-            original_profile.setName(profile.getName());
 
             // 이미지 수정
-            MultipartFile img_file = profile.getImg_file();
-            if (!img_file.isEmpty()) {
-                UUID uuid = UUID.randomUUID();
-                String img_name = uuid + "_" + img_file.getOriginalFilename();
-                original_profile.setImg_name(img_name);
-				
-                byte[] in = img_file.getBytes();
-                File out = new File(path, img_name);
-                FileCopyUtils.copy(in, out);
+            if (profile.getImg_file() != null) {
+                MultipartFile img_file = profile.getImg_file();
+                if (!img_file.isEmpty()) {
+                    UUID uuid = UUID.randomUUID();
+                    String img_name = uuid + "_" + img_file.getOriginalFilename();
+                    profile.setImg_name(img_name);
+                    
+                    byte[] in = img_file.getBytes();
+                    File out = new File(path, img_name);
+                    FileCopyUtils.copy(in, out);
+                }
+            }else {
+                profile.setImg_name(original_profile.getImg_name());
             }
-            int result = profileMapper.profile_update(original_profile);
+            int result = profileMapper.profile_update(profile);
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             System.out.println("profile_update : " + e);

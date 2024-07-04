@@ -27,16 +27,7 @@ public class TossController {
             JwtDecode jwtDecode = new JwtDecode(token);
             toss.setUser_id(jwtDecode.getUser_id());
 
-            // 결제 승인 처리 후 결제 정보 받기
-            TossVO result = tossService.tossConfirm(toss);
-            
-            if (result != null) {
-                System.out.println("결제 성공");
-                return ResponseEntity.ok(result);
-            } else {
-                System.out.println("결제 실패");
-                return ResponseEntity.status(400).body(null);
-            }
+            return tossService.tossConfirm(toss);
     }
 
     // 토스 결제 취소

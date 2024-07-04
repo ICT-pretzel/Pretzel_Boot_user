@@ -8,9 +8,9 @@ import com.ict.pretzel.ko.vo.TossVO;
 @Mapper
 public interface TossMapper {
 
-    int toss_insert(TossVO toss);
+    void toss_insert(TossVO toss);
 
-    int subs_update(TossVO toss);
+    void subs_update(TossVO toss);
 
     TossVO toss_detail(@Param("toss_idx") String toss_idx);
 
