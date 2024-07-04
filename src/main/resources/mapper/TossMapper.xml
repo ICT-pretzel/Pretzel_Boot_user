@@ -30,5 +30,8 @@
         where toss_idx = #{toss_idx} 
      </update>
 
+     <select id="toss_list" resultType="TossVO">
+        select * from toss order by toss_idx
+     </select>
 
 </mapper>

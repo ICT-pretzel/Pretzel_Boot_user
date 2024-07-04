@@ -12,6 +12,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.List;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +93,14 @@ public class TossService {
             System.out.println("tossConfirm : " + e);
         }
         return ResponseEntity.ok(0);
+    }
+
+    // 토스 리스트
+    public ResponseEntity<?> tossList() {
+
+        List<TossVO> toss_list = tossMapper.toss_list();
+
+        return ResponseEntity.ok(toss_list);
     }
 
     // 토스 결제 취소
