@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.pretzel.lee.mapper.MovieDetailMapper">
+
+  <insert id="addReview">
+    <!-- 리뷰를 추가하는 SQL 쿼리 -->
+    INSERT INTO reviews (profile_idx, movie_idx, rating, content, regdate)
+    VALUES (#{review.profile_idx}, #{review.movie_idx}, #{review.rating}, #{review.content}, CURRENT_TIMESTAMP)
+  </insert>
+
+  <delete id="deleteReview">
+    <!-- 리뷰를 삭제하는 SQL 쿼리 -->
+    DELETE FROM reviews WHERE profile_idx = #{profileIdx} AND review_idx = #{reviewIdx}
+  </delete>
+
+  <insert id="addReport">
+    <!-- 신고를 추가하는 SQL 쿼리 -->
+    INSERT INTO reports (profile_idx, review_idx, type, regdate)
+    VALUES (#{report.profile_idx}, #{report.review_idx}, #{report.type}, CURRENT_TIMESTAMP)
+  </insert>
+
+  <insert id="addWish">
+    <!-- 찜을 추가하는 SQL 쿼리 -->
+    INSERT INTO wish_movies (profile_idx, movie_idx)
+    VALUES (#{profileIdx}, #{movieIdx})
+  </insert>
+
+  <delete id="deleteWish">
+    <!-- 찜을 삭제하는 SQL 쿼리 -->
+    DELETE FROM wish_movies WHERE profile_idx = #{profileIdx} AND movie_idx = #{movieIdx}
+  </delete>
+
+</mapper>
