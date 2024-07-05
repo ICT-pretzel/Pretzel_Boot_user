@@ -44,7 +44,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             // 성공 후 토큰을 가지고 클라이언트로 넘어간다.
             UserDetails userDetails = userDetailsService.loadUserByOAuth2User(oAuth2User, provider);
             String token = jwtUtil.generateToken(userDetails);
-            System.out.println("#####token : " + token);
+            System.out.println("#####sns로그인 토큰 : " + token);
             response.addHeader("Authorization", "Bearer " + token);
             response.sendRedirect("http://localhost:3000/inout?token=" + token);
         } catch (Exception e) {
@@ -60,8 +60,6 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             return "kakao";
         }else if (uri.contains("naver")) {
             return "naver";
-        }else if (uri.contains("google")) {
-            return "google";
         }else {
             return "unknown";
         }
