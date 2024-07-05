@@ -20,7 +20,7 @@ public class CustomOAuth2userService extends DefaultOAuth2UserService{
         // 사용자 속성 가져오기
         Map<String,Object> attributes = oAuth2User.getAttributes();
 
-        // 어떤 제공자인지 알수 있다. (naver, kakao, google)
+        // 어떤 제공자인지 알수 있다. (naver, kakao)
         String provider = userRequest.getClientRegistration().getRegistrationId();
 
         if(provider.equals("naver")){
@@ -52,14 +52,6 @@ public class CustomOAuth2userService extends DefaultOAuth2UserService{
                 "name", name,
                 "id", attributes.get("id")
                 ),"email");
-        }else if(provider.equals("google")){
-            String email = (String) attributes.get("email");
-            String name = (String) attributes.get("name");
-            return new DefaultOAuth2User(oAuth2User.getAuthorities(), Map.of(
-                "email", email,
-                "name", name,
-                "id", attributes.get("sub")
-            ), "email");
         }
 
         return oAuth2User;

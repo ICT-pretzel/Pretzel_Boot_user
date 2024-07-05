@@ -49,7 +49,7 @@ public class AuthService {
         } catch (Exception e) {
             // 틀리면 0 리턴
             System.out.println("login : " + e);
-            return ResponseEntity.status(401).body("0");
+            return ResponseEntity.ok(0);
         }
     }
 
