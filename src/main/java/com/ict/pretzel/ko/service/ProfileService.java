@@ -51,6 +51,7 @@ public class ProfileService {
                     FileCopyUtils.copy(in, out);
                 }
             }
+
             int result = profileMapper.profile_insert(profile);
             return ResponseEntity.ok(result);
         } catch (Exception e) {

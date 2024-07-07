@@ -36,16 +36,21 @@ public class AuthService {
             = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getUser_id(), user.getPwd()));
 
-            // 마지막 로그인 업데이트
-            userMapper.updateUser(user);
-
-            // 사용자의 아이디와 패스워드를 가지고 있다.
-            final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUser_id());
-
-            // 그거를 가지고 jwt 토큰을 만든다.
-            final String jwt = jwtUtil.generateToken(userDetails);
-
-            return ResponseEntity.ok(new JwtResponse(jwt));
+            UserVO user_info = userMapper.login(user.getUser_id());
+            if (user_info.getStatus().equals("1")) {
+                // 마지막 로그인 업데이트
+                userMapper.updateUser(user);
+    
+                // 사용자의 아이디와 패스워드를 가지고 있다.
+                final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUser_id());
+    
+                // 그거를 가지고 jwt 토큰을 만든다.
+                final String jwt = jwtUtil.generateToken(userDetails);
+    
+                return ResponseEntity.ok(new JwtResponse(jwt));
+            }else{
+                return ResponseEntity.ok(1);
+            }
         } catch (Exception e) {
             // 틀리면 0 리턴
             System.out.println("login : " + e);
