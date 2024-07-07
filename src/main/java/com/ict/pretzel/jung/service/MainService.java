@@ -14,6 +14,13 @@ public class MainService {
     @Autowired
     private MainMapper mainMapper;
 
+	public MovieVO main_movie() {
+        MovieVO result = mainMapper.main_movie();
+        if (result != null) {
+            return result;
+        }
+        return null;
+	}
 	public List<MovieVO> recent_list() {
         List<MovieVO> result = mainMapper.recent_list();
         if (result != null) {

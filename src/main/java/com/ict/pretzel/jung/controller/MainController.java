@@ -27,6 +27,17 @@ public class MainController {
 	@Autowired
 	private MainService mainService;
 	
+	@PostMapping("main_movie")
+	public ResponseEntity<?> main_movie() {
+		try {
+			MovieVO result = mainService.main_movie();
+			return ResponseEntity.ok(result);
+			
+		} catch (Exception e) {
+			System.out.println(e);
+			return ResponseEntity.ok("0");
+		}
+	}
 	@PostMapping("/recent_list")
 	public ResponseEntity<?> recent_list() {
 		try {

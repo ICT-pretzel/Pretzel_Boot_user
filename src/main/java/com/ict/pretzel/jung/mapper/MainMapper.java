@@ -9,6 +9,7 @@ import com.ict.pretzel.vo.StatisticsVO;
 
 @Mapper
 public interface MainMapper {
+    MovieVO main_movie();
     List<MovieVO> recent_list();
     List<MovieVO> thema_list(String thema);
     List<MovieVO> age_gender_list(StatisticsVO statisticsVO);
