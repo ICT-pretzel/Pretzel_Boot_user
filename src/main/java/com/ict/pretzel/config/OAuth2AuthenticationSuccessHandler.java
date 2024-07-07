@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.ict.pretzel.jwt.JWTUtil;
 import com.ict.pretzel.jwt.service.MyUserDetailsService;
+import com.ict.pretzel.vo.UserVO;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,10 +44,22 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             
             // 성공 후 토큰을 가지고 클라이언트로 넘어간다.
             UserDetails userDetails = userDetailsService.loadUserByOAuth2User(oAuth2User, provider);
-            String token = jwtUtil.generateToken(userDetails);
-            System.out.println("#####sns로그인 토큰 : " + token);
-            response.addHeader("Authorization", "Bearer " + token);
-            response.sendRedirect("http://localhost:3000/inout?token=" + token);
+
+            UserVO user = userDetailsService.getUserDetail(userDetails.getUsername());
+            if (user.getStatus().equals("0")) {
+                // 정지된 계정이면 토큰에 null 반환
+                // 로그인 페이지 ( 만약에 로그인 페이지 url 바뀌면 변경 해주기 )
+                response.sendRedirect("http://localhost:3000/choiWork?token=");
+            }else{
+                String token = jwtUtil.generateToken(userDetails);
+                System.out.println("#####sns로그인 토큰 : " + token);
+                response.addHeader("Authorization", "Bearer " + token);
+    
+                // 로그인 페이지 ( 만약에 로그인 페이지 url 바뀌면 변경 해주기 )
+                response.sendRedirect("http://localhost:3000/choiWork?token=" + token);
+            }
+
+
         } catch (Exception e) {
             e.printStackTrace();
             // 스프링 자체의 로그인 페이지
