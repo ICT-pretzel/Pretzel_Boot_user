@@ -116,7 +116,7 @@ public class MainController {
 			List<String> select_list = rand_list.subList(0,2);
 			System.out.println(thema);
 			for (String k : select_list) {
-				System.out.println(k);
+				System.out.println("선택된 랜덤 값 : "+k);
 			}
 			List<String> select_keyword = new ArrayList<>();
 			List<String> select_value = new ArrayList<>();

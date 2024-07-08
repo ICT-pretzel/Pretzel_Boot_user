@@ -1,6 +1,7 @@
 package com.ict.pretzel.jung.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import com.ict.pretzel.vo.CastVO;
 import com.ict.pretzel.vo.CrewVO;
 import com.ict.pretzel.vo.MovieReviewVO;
 import com.ict.pretzel.vo.MovieVO;
+import com.ict.pretzel.vo.ProfileVO;
 
 @Service
 public class MovieService {
@@ -26,6 +28,20 @@ public class MovieService {
 	}
 	public int real_stackup(String movie_idx) {
         int result = movieMapper.real_stackup(movie_idx);
+        if (result > 0) {
+            return 1;
+        }
+        return 0;
+	}
+	public int day_stackup(String movie_idx) {
+        int result = movieMapper.day_stackup(movie_idx);
+        if (result > 0) {
+            return 1;
+        }
+        return 0;
+	}
+	public int update_stack(Map<String, Object> up_stack) {
+        int result = movieMapper.update_stack(up_stack);
         if (result > 0) {
             return 1;
         }

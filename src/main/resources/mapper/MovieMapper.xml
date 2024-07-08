@@ -16,6 +16,61 @@
     ON DUPLICATE KEY UPDATE stack = stack + 1;
   </insert>
 
+  <insert id="day_stackup" parameterType="String">
+    INSERT INTO day_list (movie_idx)
+    VALUES (#{movie_idx})
+    ON DUPLICATE KEY UPDATE stack = stack + 1;
+  </insert>
+  
+  <update id="update_stack" parameterType="Map">
+    update movies 
+    set
+      watch_stack = watch_stack+1,
+      <choose>
+        <when test="gender == 0">
+          woman_stack = woman_stack+1,
+          <choose>
+            <when test="age == 10">
+              w_teen_stack = w_teen_stack+1
+            </when>
+            <when test="age == 20">
+              w_twenty_stack = w_twenty_stack+1
+            </when>
+            <when test="age == 30">
+              w_thirty_stack = w_thirty_stack+1
+            </when>
+            <when test="age == 40">
+              w_forty_stack = w_forty_stack+1
+            </when>
+            <when test="age == 50">
+              w_fifty_stack = w_fifty_stack+1
+            </when>
+          </choose>
+        </when>
+        <when test="gender == 1">
+          man_stack = man_stack+1,
+          <choose>
+            <when test="age == 10">
+              m_teen_stack = m_teen_stack+1
+            </when>
+            <when test="age == 20">
+              m_twenty_stack = m_twenty_stack+1
+            </when>
+            <when test="age == 30">
+              m_thirty_stack = m_thirty_stack+1
+            </when>
+            <when test="age == 40">
+              m_forty_stack = m_forty_stack+1
+            </when>
+            <when test="age == 50">
+              m_fifty_stack = m_fifty_stack+1
+            </when>
+          </choose>
+        </when>
+      </choose>
+    where movie_idx = #{movie_idx}
+  </update>
+
   <select id="cast_list" parameterType="String" resultType="CastVO">
     select * 
     from casts
@@ -34,7 +89,7 @@
     SELECT reviews.*, profiles.name, profiles.img_name, profiles.user_id
     FROM reviews
     JOIN profiles ON reviews.profile_idx = profiles.profile_idx
-    where movie_idx = #{movie_idx}
+    where movie_idx = #{movie_idx} and status = 1
     order by regdate DESC
   </select>
 

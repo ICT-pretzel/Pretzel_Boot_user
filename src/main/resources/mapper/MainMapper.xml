@@ -77,7 +77,7 @@
     SELECT *
     FROM movies
     where thema=#{thema}
-    and and status = 1
+    and status = 1
     ORDER BY 
     <choose>
       <when test="gender == 'man'">
