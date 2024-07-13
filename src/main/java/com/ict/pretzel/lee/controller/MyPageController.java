@@ -27,7 +27,6 @@ public class MyPageController {
 
     @GetMapping("/userdetail")
     public ResponseEntity<?> userdetail(@RequestHeader("Authorization") String token) {
-        // "Bearer " 문자열 제거
         JwtDecode jwtDecode = new JwtDecode(token);
         String userId = jwtDecode.getUser_id();
         return ResponseEntity.ok(myPageService.userdetail(userId));

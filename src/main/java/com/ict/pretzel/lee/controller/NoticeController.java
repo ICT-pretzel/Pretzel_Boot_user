@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ict.pretzel.lee.service.NoticeService;
 import com.ict.pretzel.jwt.JwtDecode;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/notice")
@@ -29,8 +31,10 @@ public class NoticeController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestParam String profile_idx, @RequestParam String question_title, @RequestParam String question_content) {
-        int profileIdx = Integer.parseInt(profile_idx);
-        return ResponseEntity.ok(noticeService.add(profileIdx, question_title, question_content));
+    public ResponseEntity<?> add(@RequestBody Map<String, String> requestData) {
+        int profileIdx = Integer.parseInt(requestData.get("profile_idx"));
+        String questionTitle = requestData.get("question_title");
+        String questionContent = requestData.get("question_content");
+        return ResponseEntity.ok(noticeService.add(profileIdx, questionTitle, questionContent));
     }
 }
