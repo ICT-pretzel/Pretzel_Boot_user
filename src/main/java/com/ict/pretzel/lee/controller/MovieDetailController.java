@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ict.pretzel.lee.service.MovieDetailService;
 import com.ict.pretzel.vo.ReviewVO;
+import com.ict.pretzel.vo.WishVO;
 import com.ict.pretzel.vo.ReportVO;
 import com.ict.pretzel.vo.ProfileVO;
 
@@ -51,6 +52,12 @@ public class MovieDetailController {
     public ResponseEntity<?> wishDelete(@RequestBody ProfileVO profile, @RequestParam String movie_idx) {
         // 찜 삭제 요청을 처리하는 메서드
         int result = movieDetailService.deleteWish(profile.getProfile_idx(), movie_idx); // 찜 삭제 서비스 호출
+        return ResponseEntity.ok(result); // 결과를 반환
+    }
+    @PostMapping("/wish/wishChk")
+    public ResponseEntity<?> wishChk(@RequestBody WishVO wishVO) {
+        // 찜목록 있는지 여부 확인
+        int result = movieDetailService.wishChk(wishVO);
         return ResponseEntity.ok(result); // 결과를 반환
     }
 }

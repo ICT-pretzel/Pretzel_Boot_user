@@ -21,5 +21,5 @@ public class CommonController {
     String path = "src\\main\\resources\\upload\\"; //이미지가 저장된 위치 
     Resource resource = new FileSystemResource(path + imageName); 
         return new ResponseEntity<>(resource, HttpStatus.OK); 
-}
+    }
 }

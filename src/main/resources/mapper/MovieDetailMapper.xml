@@ -32,4 +32,10 @@
     DELETE FROM wish_movies WHERE profile_idx = #{profileIdx} AND movie_idx = #{movieIdx}
   </delete>
 
+  <select id="wishChk" parameterType="WishVO">
+    select count(*)
+    from wish_movies
+    where profile_idx=#{profile_idx} and movie_idx=#{movie_idx}
+  </select>
+
 </mapper>
