@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class CommonController {
     @GetMapping("/image")
     public ResponseEntity<?> image(@RequestParam String imageName) { 
-    String path = "C:\\Final_Project\\Pretzel_Boot_user\\src\\main\\resources\\upload\\"; //이미지가 저장된 위치 
+    String path = "src\\main\\resources\\upload\\"; //이미지가 저장된 위치 
     Resource resource = new FileSystemResource(path + imageName); 
         return new ResponseEntity<>(resource, HttpStatus.OK); 
 }
