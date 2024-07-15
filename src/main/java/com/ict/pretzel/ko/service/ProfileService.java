@@ -40,7 +40,7 @@ public class ProfileService {
             if (profile.getImg_file() != null) {
                 MultipartFile img_file = profile.getImg_file();
                 if (img_file == null || img_file.isEmpty()) {
-                    profile.setImg_name("");
+                    profile.setImg_name("default_profile.png");
                 }else {
                     UUID uuid = UUID.randomUUID();
                     String img_name = uuid + "_" + img_file.getOriginalFilename();
