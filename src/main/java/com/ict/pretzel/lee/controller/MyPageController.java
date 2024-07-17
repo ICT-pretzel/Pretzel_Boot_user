@@ -32,7 +32,7 @@ public class MyPageController {
         return ResponseEntity.ok(myPageService.userdetail(userId));
     }
 
-    @GetMapping("/watchlist")
+    @PostMapping("/watchlist")
     public ResponseEntity<List<MovieVO>> watchlist(@RequestBody ProfileVO profile) {
         int profileIdx = Integer.parseInt(profile.getProfile_idx());
         return ResponseEntity.ok(myPageService.watchlist(profileIdx));
