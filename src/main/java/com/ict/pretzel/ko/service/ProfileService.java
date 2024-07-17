@@ -35,7 +35,7 @@ public class ProfileService {
         try {
             JwtDecode jwtDecode = new JwtDecode(token);
             profile.setUser_id(jwtDecode.getUser_id());
-
+            System.out.println("확인용 : "+profile.getImg_file());
             // 이미지 저장
             if (profile.getImg_file() != null) {
                 MultipartFile img_file = profile.getImg_file();
@@ -50,6 +50,8 @@ public class ProfileService {
                     File out = new File(path, img_name);
                     FileCopyUtils.copy(in, out);
                 }
+            }else{
+                profile.setImg_name("default_profile.png");
             }
 
             int result = profileMapper.profile_insert(profile);
