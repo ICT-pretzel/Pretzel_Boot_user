@@ -86,7 +86,7 @@ public class MovieController {
 		}
 	}
 	@GetMapping("/watch_movie")
-	public ResponseEntity<?> watch_movie(@RequestParam String gender, @RequestParam int age, @RequestParam String movie_idx) {
+	public ResponseEntity<?> watch_movie(@RequestParam String gender, @RequestParam int age, @RequestParam String movie_idx, @RequestParam String profile_idx) {
 		try {
 			String s_age = "";
 			if (age > 0 && age < 20) {
@@ -107,8 +107,12 @@ public class MovieController {
 			up_stack.put("age", s_age);
 			up_stack.put("gender", gender);
 
+			Map<String, Object> watch = new HashMap<>();
+			watch.put("profile_idx", profile_idx);
+			watch.put("movie_idx", movie_idx);
 			int result = movieService.update_stack(up_stack);
 			int real_stack = movieService.day_stackup(movie_idx);
+			int watchlist = movieService.watchUp(watch);
 	
 			return ResponseEntity.ok(result);
 			

@@ -93,4 +93,11 @@
     order by regdate DESC
   </select>
 
+  <insert id="watchUp" parameterType="Map">
+    INSERT INTO watch_movies (profile_idx, movie_idx, watch_date)
+    VALUES (#{profile_idx}, #{movie_idx}, SYSDATE())
+    ON DUPLICATE KEY UPDATE
+    watch_date = SYSDATE()
+</insert>
+
 </mapper>

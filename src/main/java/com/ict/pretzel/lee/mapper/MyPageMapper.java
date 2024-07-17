@@ -7,6 +7,7 @@ import com.ict.pretzel.vo.MovieVO;
 import com.ict.pretzel.vo.QuestionVO;
 import com.ict.pretzel.vo.ReviewVO;
 import com.ict.pretzel.vo.UserVO;
+import com.ict.pretzel.vo.WatchListVO;
 import com.ict.pretzel.vo.WishVO;
 
 @Mapper
@@ -14,7 +15,7 @@ public interface MyPageMapper {
 
     UserVO userdetail(@Param("user_id") String userId);
 
-    List<MovieVO> watchlist(@Param("profile_idx") int profileIdx);
+    List<WatchListVO> watchlist(@Param("profile_idx") int profileIdx);
 
     List<MovieVO> wishlist(@Param("profile_idx") int profileIdx);
 

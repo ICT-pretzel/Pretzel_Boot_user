@@ -68,4 +68,11 @@ public class MovieService {
         }
         return null;
 	}
+    public int watchUp(Map<String, Object> watch) {
+        int result = movieMapper.watchUp(watch);
+        if (result > 0) {
+            return 1;
+        }
+        return 0;
+    }
 }

@@ -16,6 +16,7 @@ import com.ict.pretzel.vo.MovieVO;
 import com.ict.pretzel.vo.ProfileVO;
 import com.ict.pretzel.vo.QuestionVO;
 import com.ict.pretzel.vo.ReviewVO;
+import com.ict.pretzel.vo.WatchListVO;
 import com.ict.pretzel.vo.WishVO;
 
 @RestController
@@ -33,12 +34,12 @@ public class MyPageController {
     }
 
     @PostMapping("/watchlist")
-    public ResponseEntity<List<MovieVO>> watchlist(@RequestBody ProfileVO profile) {
+    public ResponseEntity<List<WatchListVO>> watchlist(@RequestBody ProfileVO profile) {
         int profileIdx = Integer.parseInt(profile.getProfile_idx());
         return ResponseEntity.ok(myPageService.watchlist(profileIdx));
     }
 
-    @GetMapping("/wishlist")
+    @PostMapping("/wishlist")
     public ResponseEntity<List<MovieVO>> wishlist(@RequestBody ProfileVO profile) {
         int profileIdx = Integer.parseInt(profile.getProfile_idx());
         return ResponseEntity.ok(myPageService.wishlist(profileIdx));
@@ -50,7 +51,7 @@ public class MyPageController {
         return ResponseEntity.ok(myPageService.questionlist(profileIdx));
     }
 
-    @GetMapping("/reviewlist")
+    @PostMapping("/reviewlist")
     public ResponseEntity<List<ReviewVO>> reviewlist(@RequestBody ProfileVO profile) {
         int profileIdx = Integer.parseInt(profile.getProfile_idx());
         return ResponseEntity.ok(myPageService.reviewlist(profileIdx));

@@ -8,6 +8,7 @@ import com.ict.pretzel.vo.MovieVO;
 import com.ict.pretzel.vo.QuestionVO;
 import com.ict.pretzel.vo.ReviewVO;
 import com.ict.pretzel.vo.UserVO;
+import com.ict.pretzel.vo.WatchListVO;
 import com.ict.pretzel.vo.WishVO;
 
 @Service
@@ -20,7 +21,7 @@ public class MyPageService {
         return myPageMapper.userdetail(userId);
     }
 
-    public List<MovieVO> watchlist(int profileIdx) {
+    public List<WatchListVO> watchlist(int profileIdx) {
         return myPageMapper.watchlist(profileIdx);
     }
 

@@ -19,4 +19,5 @@ public interface MovieMapper {
     List<CastVO> cast_list(String movie_idx);
     List<CrewVO> crew_list(String movie_idx);
     List<MovieReviewVO> movie_review_list(String movie_idx);
+    int watchUp(Map<String, Object> watch);
 }

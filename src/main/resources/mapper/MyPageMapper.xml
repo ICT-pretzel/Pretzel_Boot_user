@@ -10,10 +10,12 @@
   </select>
 
   <!-- 시청한 영화 목록 조회 -->
-  <select id="watchlist" resultType="com.ict.pretzel.vo.MovieVO">
+  <select id="watchlist" resultType="com.ict.pretzel.vo.WatchListVO">
     SELECT movies.* FROM watch_movies
     JOIN movies ON watch_movies.movie_idx = movies.movie_idx
     WHERE watch_movies.profile_idx = #{profile_idx}
+    order by watch_date DESC
+    limit 50
   </select>
 
   <!-- 찜한 영화 목록 조회 -->
