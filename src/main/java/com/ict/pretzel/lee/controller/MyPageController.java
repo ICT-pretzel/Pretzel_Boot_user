@@ -45,7 +45,7 @@ public class MyPageController {
         return ResponseEntity.ok(myPageService.wishlist(profileIdx));
     }
 
-    @GetMapping("/questionlist")
+    @PostMapping("/questionlist")
     public ResponseEntity<List<QuestionVO>> questionlist(@RequestBody ProfileVO profile) {
         int profileIdx = Integer.parseInt(profile.getProfile_idx());
         return ResponseEntity.ok(myPageService.questionlist(profileIdx));
