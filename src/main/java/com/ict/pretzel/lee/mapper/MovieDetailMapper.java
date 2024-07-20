@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import com.ict.pretzel.vo.ReviewVO;
 import com.ict.pretzel.vo.WishVO;
 import com.ict.pretzel.vo.ReportVO;
+import java.util.Map;
 
 @Mapper
 public interface MovieDetailMapper {
@@ -20,4 +21,8 @@ public interface MovieDetailMapper {
     int deleteWish(@Param("profileIdx") String profileIdx, @Param("movieIdx") String movieIdx); // 찜 삭제 메서드
     
     int wishChk(WishVO wishVO);
+
+    int reviewChk(Map<String, Object> info);
+    
+    int reportChk(Map<String, Object> info);
 }

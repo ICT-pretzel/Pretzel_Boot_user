@@ -2,6 +2,7 @@ package com.ict.pretzel.lee.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,8 @@ import com.ict.pretzel.vo.ReviewVO;
 import com.ict.pretzel.vo.WishVO;
 import com.ict.pretzel.vo.ReportVO;
 import com.ict.pretzel.vo.ProfileVO;
+import java.util.Map;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/moviedetail")
@@ -60,4 +63,20 @@ public class MovieDetailController {
         int result = movieDetailService.wishChk(wishVO);
         return ResponseEntity.ok(result); // 결과를 반환
     }
+    @GetMapping("/review/reviewChk")
+	public ResponseEntity<?> reviewChk(@RequestParam("profile_idx") String profile_idx, @RequestParam("movie_idx") String movie_idx) {
+        Map<String, Object> info = new HashMap<>();
+        info.put("profile_idx", profile_idx);
+        info.put("movie_idx", movie_idx);
+        int result = movieDetailService.reviewChk(info);
+        return ResponseEntity.ok(result); // 결과를 반환
+	}
+	@GetMapping("/report/reportChk")
+	public ResponseEntity<?> reportChk(@RequestParam("profile_idx") String profile_idx, @RequestParam("review_idx") String review_idx ) {
+        Map<String, Object> info = new HashMap<>();
+        info.put("profile_idx", profile_idx);
+        info.put("review_idx", review_idx);
+        int result = movieDetailService.reportChk(info);
+        return ResponseEntity.ok(result); // 결과를 반환
+	}
 }

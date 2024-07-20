@@ -29,7 +29,7 @@ public class MovieController {
 	private MovieService movieService;
 	
 	@GetMapping("/movie_detail")
-	public ResponseEntity<?> movie_detail(@RequestParam String movie_idx) {
+	public ResponseEntity<?> movie_detail(@RequestParam("movie_idx") String movie_idx) {
 		try {
 			MovieVO result = movieService.movie_detail(movie_idx);
 			int real_stack = movieService.real_stackup(movie_idx);
@@ -42,7 +42,7 @@ public class MovieController {
 		}
 	}
 	@GetMapping("/cast_list")
-	public ResponseEntity<?> cast_list(@RequestParam String movie_idx) {
+	public ResponseEntity<?> cast_list(@RequestParam("movie_idx") String movie_idx) {
 		try {
 			List<CastVO> result = movieService.cast_list(movie_idx);
 			return ResponseEntity.ok(result);
@@ -53,7 +53,7 @@ public class MovieController {
 		}
 	}
 	@GetMapping("/crew_list")
-	public ResponseEntity<?> crew_list(@RequestParam String movie_idx) {
+	public ResponseEntity<?> crew_list(@RequestParam("movie_idx") String movie_idx) {
 		try {
 			List<CrewVO> result = movieService.crew_list(movie_idx);
 			return ResponseEntity.ok(result);
@@ -64,7 +64,7 @@ public class MovieController {
 		}
 	}
 	@GetMapping("/movie_review_list")
-	public ResponseEntity<?> movie_review_list(@RequestParam String movie_idx) {
+	public ResponseEntity<?> movie_review_list(@RequestParam("movie_idx") String movie_idx) {
 		try {
 			List<MovieReviewVO> result = movieService.movie_review_list(movie_idx);
 			List<MovieReviewVO> result_sub = result;
@@ -86,7 +86,7 @@ public class MovieController {
 		}
 	}
 	@GetMapping("/watch_movie")
-	public ResponseEntity<?> watch_movie(@RequestParam String gender, @RequestParam int age, @RequestParam String movie_idx, @RequestParam String profile_idx) {
+	public ResponseEntity<?> watch_movie(@RequestParam("gender") String gender, @RequestParam("age") int age, @RequestParam("movie_idx") String movie_idx, @RequestParam("profile_idx") String profile_idx) {
 		try {
 			String s_age = "";
 			if (age > 0 && age < 20) {

@@ -38,4 +38,16 @@
     where profile_idx=#{profile_idx} and movie_idx=#{movie_idx}
   </select>
 
+  <select id="reviewChk" parameterType="Map">
+    select count(*)
+    from reviews
+    where profile_idx=#{profile_idx} and movie_idx=#{movie_idx}
+  </select>
+
+  <select id="reportChk" parameterType="Map">
+    select count(*)
+    from reports
+    where profile_idx=#{profile_idx} and review_idx=#{review_idx}
+  </select>
+
 </mapper>
