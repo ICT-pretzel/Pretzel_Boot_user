@@ -24,6 +24,7 @@
     SELECT movies.* FROM wish_movies
     JOIN movies ON wish_movies.movie_idx = movies.movie_idx
     WHERE wish_movies.profile_idx = #{profile_idx}
+    order by wish_idx DESC
   </select>
 
   <!-- 문의 목록 조회 -->
@@ -75,6 +76,7 @@
     FROM reviews r
     JOIN movies m ON r.movie_idx = m.movie_idx
     WHERE r.profile_idx = #{profile_idx}
+    order by regdate DESC
   </select>
 
   <!-- 비밀번호 확인 -->
