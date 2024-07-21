@@ -19,6 +19,8 @@
         p.birth,
         p.gender,
         u.subs,
+        u.subs_date,
+        u.subs_update,
         p.like_thema as like_themaAsString  <!-- 문자열로 매핑 -->
     from profiles p
     left join users u on p.user_id = u.user_id
