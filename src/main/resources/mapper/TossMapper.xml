@@ -12,10 +12,22 @@
     </insert>
 
     <!-- 구독권 업데이트 -->
-    <update id="subs_update" parameterType="TossVO">
-        update users 
-        set subs = #{orderName} 
-        where user_id = #{user_id}
-    </update>
+<update id="subs_update" parameterType="TossVO">
+    update users
+    set 
+        subs_update = CASE
+                        WHEN subs IS NOT NULL THEN CONCAT(COALESCE(subs_update, ''), #{subs_value})
+                        ELSE subs_update
+                      END,
+        subs = CASE
+                 WHEN subs IS NULL THEN subs
+                 ELSE #{orderName}
+               END,
+        subs_date = CASE
+                      WHEN subs IS NULL THEN subs_date
+                      ELSE DATE_ADD(NOW(), INTERVAL 30 DAY)
+                    END
+    where user_id = #{user_id}
+</update>
 
 </mapper>

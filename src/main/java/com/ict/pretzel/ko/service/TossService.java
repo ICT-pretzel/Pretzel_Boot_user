@@ -84,6 +84,11 @@ public class TossService {
             toss.setApprovedAt(jsonObject.get("approvedAt").getAsString());
             toss.setOrderName(jsonObject.get("orderName").getAsString());
             toss.setPaymentKey(jsonObject.get("paymentKey").getAsString());
+            if (toss.getOrderName().equals("베이직")) {
+                toss.setSubs_value("0");
+            }else if (toss.getOrderName().equals("프리미엄")) {
+                toss.setSubs_value("1");
+            }
 
             tossMapper.toss_insert(toss);
             tossMapper.subs_update(toss);
