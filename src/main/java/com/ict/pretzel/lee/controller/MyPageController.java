@@ -56,6 +56,11 @@ public class MyPageController {
         int profileIdx = Integer.parseInt(profile.getProfile_idx());
         return ResponseEntity.ok(myPageService.reviewlist(profileIdx));
     }
+    @GetMapping("/questionDetail")
+    public ResponseEntity<?> questionDetail(@RequestParam("question_idx") String question_idx) {
+        QuestionVO res = myPageService.questionDetail(question_idx);
+        return ResponseEntity.ok(res);
+    }
 
 
     @PostMapping("/pay")

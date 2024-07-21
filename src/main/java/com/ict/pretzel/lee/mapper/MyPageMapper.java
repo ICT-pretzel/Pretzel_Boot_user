@@ -21,6 +21,8 @@ public interface MyPageMapper {
 
     List<QuestionVO> questionlist(@Param("profile_idx") int profileIdx);
 
+    QuestionVO questionDetail(@Param("question_idx") String question_idx);
+
     List<ReviewVO> reviewlist(@Param("profile_idx") int profileIdx);
 
     int pwdchk(@Param("user_id") String userId, @Param("u_pwd") String uPwd);

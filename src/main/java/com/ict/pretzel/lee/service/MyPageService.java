@@ -33,6 +33,10 @@ public class MyPageService {
         return myPageMapper.questionlist(profileIdx);
     }
 
+    public QuestionVO questionDetail(String question_idx) {
+        return myPageMapper.questionDetail(question_idx);
+    }
+
     public List<ReviewVO> reviewlist(int profileIdx) {
         return myPageMapper.reviewlist(profileIdx);
     }
