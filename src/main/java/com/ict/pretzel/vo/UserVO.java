@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 public class UserVO implements UserDetails{
     private String user_idx, user_id, pwd, name, email, subs, regdate,  
-                last_login, status, admin_id;
+                last_login, status, admin_id, subs_date, subs_update;
 
     private List<GrantedAuthority> authorities = new ArrayList<>();
     @Override
