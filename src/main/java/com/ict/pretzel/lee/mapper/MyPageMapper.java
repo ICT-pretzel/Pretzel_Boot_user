@@ -23,11 +23,13 @@ public interface MyPageMapper {
 
     QuestionVO questionDetail(@Param("question_idx") String question_idx);
 
-    List<ReviewVO> reviewlist(@Param("profile_idx") int profileIdx);
+    List<ReviewVO> reviewlist(@Param("profile_idx") int profileIdx, @Param("numPerPage") int numPerPage, @Param("offset") int offset);
 
     int pwdchk(@Param("user_id") String userId, @Param("u_pwd") String uPwd);
 
     int pwdupdate(@Param("user_id") String userId, @Param("new_pwd") String newPwd);
 
     int pay(@Param("user_id") String userId, @Param("u_subs") String uSubs);
+
+    int review_count(@Param("profile_idx") String profile_idx);
 }

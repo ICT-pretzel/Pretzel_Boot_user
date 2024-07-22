@@ -37,6 +37,11 @@
     SELECT * FROM questions WHERE question_idx = #{question_idx}
   </select>
 
+  <!-- 리뷰 총 갯수 조회 -->
+  <select id="review_count">
+    SELECT count(*) FROM reviews WHERE status = 1 and profile_idx = #{profile_idx}
+  </select>
+
   <!-- 리뷰 목록 조회 -->
   <resultMap id="reviewResultMap" type="com.ict.pretzel.vo.ReviewVO">
     <id property="review_idx" column="review_idx" />
@@ -77,6 +82,7 @@
     JOIN movies m ON r.movie_idx = m.movie_idx
     WHERE r.profile_idx = #{profile_idx}
     order by regdate DESC
+    limit #{numPerPage} offset #{offset}
   </select>
 
   <!-- 비밀번호 확인 -->

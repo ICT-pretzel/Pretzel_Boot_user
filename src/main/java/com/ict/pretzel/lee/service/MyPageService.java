@@ -37,8 +37,8 @@ public class MyPageService {
         return myPageMapper.questionDetail(question_idx);
     }
 
-    public List<ReviewVO> reviewlist(int profileIdx) {
-        return myPageMapper.reviewlist(profileIdx);
+    public List<ReviewVO> reviewlist(int profileIdx, int numPerPage, int offset) {
+        return myPageMapper.reviewlist(profileIdx, numPerPage, offset);
     }
 
     public int pwdchk(String userId, String uPwd) {
@@ -51,5 +51,9 @@ public class MyPageService {
 
     public int pay(String userId, String uSubs) {
         return myPageMapper.pay(userId, uSubs);
+    }
+
+    public int review_count(String profile_idx) {
+        return myPageMapper.review_count(profile_idx);
     }
 }
