@@ -14,18 +14,18 @@ public class NoticeService {
     @Autowired
     private NoticeMapper noticeMapper;
 
-    public ResponseEntity<List<NoticeVO>> list() {
-        List<NoticeVO> noticeList = noticeMapper.list();
+    public ResponseEntity<List<NoticeVO>> notice_list() {
+        List<NoticeVO> noticeList = noticeMapper.notice_list();
         return ResponseEntity.ok(noticeList);
     }
 
-    public ResponseEntity<List<FaqVO>> faq() {
-        List<FaqVO> faqList = noticeMapper.faq();
+    public ResponseEntity<List<FaqVO>> faq_list(String type) {
+        List<FaqVO> faqList = noticeMapper.faq_list(type);
         return ResponseEntity.ok(faqList);
     }
 
-    public ResponseEntity<Integer> add(int profileIdx, String question_title, String question_content) { 
-        int result = noticeMapper.add(profileIdx, question_title, question_content);
+    public ResponseEntity<Integer> question_add(int profileIdx, String question_title, String question_content) { 
+        int result = noticeMapper.question_add(profileIdx, question_title, question_content);
         return ResponseEntity.ok(result);
     }
 }
