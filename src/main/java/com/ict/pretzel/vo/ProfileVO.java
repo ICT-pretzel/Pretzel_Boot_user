@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 public class ProfileVO {
     private String profile_idx, name, img_name, regdate, user_id, subs, birth, gender, subs_date, subs_update;
-    private int age;
+    private int age ;
     private List<String> like_thema;
     private MultipartFile img_file;
 

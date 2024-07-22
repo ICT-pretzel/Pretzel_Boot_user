@@ -50,6 +50,7 @@ public class ProfileController {
     // 프로필 수정(이미지 있을때)
     @PostMapping("/profile_update")
     public ResponseEntity<?> profile_update(ProfileVO profile) {
+        System.out.println("!!" + profile);
         return profileService.profile_update(profile);
     }
 

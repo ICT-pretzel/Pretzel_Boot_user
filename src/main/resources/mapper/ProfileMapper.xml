@@ -34,7 +34,7 @@
 
   <update id="profile_update" parameterType="ProfileVO">
     update profiles 
-    set name = #{name}, img_name = #{img_name}, like_thema = #{like_themaAsString}
+    set name = #{name}, img_name = #{img_name}, like_thema = #{like_themaAsString} , birth = #{birth}, gender = #{gender}
     where profile_idx = #{profile_idx}
   </update>
 
