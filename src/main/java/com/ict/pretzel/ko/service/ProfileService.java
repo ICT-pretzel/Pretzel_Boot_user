@@ -99,7 +99,13 @@ public class ProfileService {
 
     // 프로필 삭제
     public ResponseEntity<?> profile_delete(String profile_idx) {
-
+        String fath = "src/main/resources/upload/";
+        ProfileVO profile = profileMapper.profile_detail(profile_idx);
+        String image_name = profile.getImg_name();
+        if (!image_name.equals("default_profile.png")) {
+            File file = new File(fath + image_name);
+                file.delete();
+        }
         int result = profileMapper.profile_delete(profile_idx);
 
         return ResponseEntity.ok(result);
