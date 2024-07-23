@@ -9,7 +9,6 @@ import com.ict.pretzel.vo.QuestionVO;
 import com.ict.pretzel.vo.ReviewVO;
 import com.ict.pretzel.vo.UserVO;
 import com.ict.pretzel.vo.WatchListVO;
-import com.ict.pretzel.vo.WishVO;
 
 @Service
 public class MyPageService {
@@ -29,16 +28,16 @@ public class MyPageService {
         return myPageMapper.wishlist(profileIdx);
     }
 
-    public List<QuestionVO> questionlist(int profileIdx) {
-        return myPageMapper.questionlist(profileIdx);
+    public List<QuestionVO> questionlist(int profileIdx, int numPerPage, int offset) {
+        return myPageMapper.questionlist(profileIdx, numPerPage, offset);
     }
 
     public QuestionVO questionDetail(String question_idx) {
         return myPageMapper.questionDetail(question_idx);
     }
 
-    public List<ReviewVO> reviewlist(int profileIdx, int numPerPage, int offset) {
-        return myPageMapper.reviewlist(profileIdx, numPerPage, offset);
+    public List<ReviewVO> reviewlist(int profileIdx) {
+        return myPageMapper.reviewlist(profileIdx);
     }
 
     public int pwdchk(String userId, String uPwd) {
@@ -53,7 +52,7 @@ public class MyPageService {
         return myPageMapper.pay(userId, uSubs);
     }
 
-    public int review_count(String profile_idx) {
-        return myPageMapper.review_count(profile_idx);
+    public int question_count(String profile_idx) {
+        return myPageMapper.question_count(profile_idx);
     }
 }

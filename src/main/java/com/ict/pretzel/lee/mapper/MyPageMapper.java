@@ -19,11 +19,11 @@ public interface MyPageMapper {
 
     List<MovieVO> wishlist(@Param("profile_idx") int profileIdx);
 
-    List<QuestionVO> questionlist(@Param("profile_idx") int profileIdx);
+    List<QuestionVO> questionlist(@Param("profile_idx") int profileIdx, @Param("numPerPage") int numPerPage, @Param("offset") int offset);
 
     QuestionVO questionDetail(@Param("question_idx") String question_idx);
 
-    List<ReviewVO> reviewlist(@Param("profile_idx") int profileIdx, @Param("numPerPage") int numPerPage, @Param("offset") int offset);
+    List<ReviewVO> reviewlist(@Param("profile_idx") int profileIdx);
 
     int pwdchk(@Param("user_id") String userId, @Param("u_pwd") String uPwd);
 
@@ -31,5 +31,5 @@ public interface MyPageMapper {
 
     int pay(@Param("user_id") String userId, @Param("u_subs") String uSubs);
 
-    int review_count(@Param("profile_idx") String profile_idx);
+    int question_count(@Param("profile_idx") String profile_idx);
 }

@@ -51,18 +51,12 @@ public class MyPageController {
         return ResponseEntity.ok(myPageService.wishlist(profileIdx));
     }
 
-    @PostMapping("/questionlist")
-    public ResponseEntity<List<QuestionVO>> questionlist(@RequestBody ProfileVO profile) {
-        int profileIdx = Integer.parseInt(profile.getProfile_idx());
-        return ResponseEntity.ok(myPageService.questionlist(profileIdx));
-    }
-
-    @GetMapping("/reviewlist")
-    public ResponseEntity<?> reviewlist(@RequestParam(value = "cPage", defaultValue = "1") String cPage, @RequestParam("profile_idx") String profile_idx) {
+    @GetMapping("/questionlist")
+    public ResponseEntity<?> questionlist(@RequestParam(value = "cPage", defaultValue = "1") String cPage, @RequestParam("profile_idx") String profile_idx) {
         try {
             int profileIdx = Integer.parseInt(profile_idx);
             // 페이징 기법
-            int count = myPageService.review_count(profile_idx);
+            int count = myPageService.question_count(profile_idx);
             paging.setTotalRecord(count);
 
             if (paging.getTotalRecord() <= paging.getNumPerPage()) {
@@ -88,13 +82,26 @@ public class MyPageController {
             }
 
             //  DB 갔다오기
-            List<ReviewVO> review_list = myPageService.reviewlist(profileIdx, paging.getNumPerPage(), paging.getOffset() );
+            List<QuestionVO> question_list = myPageService.questionlist(profileIdx, paging.getNumPerPage(), paging.getOffset() );
             Map<String, Object> result = new HashMap<>();
-            result.put("review_list", review_list);
+            result.put("question_list", question_list);
             result.put("paging", paging);
             result.put("count", count);
             
             return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            System.out.println(e);
+            return ResponseEntity.ok(0);
+        }
+    }
+
+    @GetMapping("/reviewlist")
+    public ResponseEntity<?> reviewlist(@RequestParam("profile_idx") String profile_idx) {
+        try {
+            int profileIdx = Integer.parseInt(profile_idx);
+            //  DB 갔다오기
+            List<ReviewVO> review_list = myPageService.reviewlist(profileIdx);
+            return ResponseEntity.ok(review_list);
         } catch (Exception e) {
             System.out.println(e);
             return ResponseEntity.ok(0);
