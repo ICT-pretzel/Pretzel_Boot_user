@@ -6,7 +6,7 @@
 <mapper namespace="com.ict.pretzel.ko.mapper.UserMapper">
 
     <select id="login" parameterType="UserVO" resultType="UserVO">
-        select * from users where user_id=#{user_id}      
+        select * from users where user_id=#{user_id} and status = 1
     </select>
 
     <select id="id_check" resultType="int">
