@@ -35,13 +35,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         try {
             OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
             String provider = getProviderFormRequest(request);
-            System.out.println("#####provider : " + provider);
 
-            // 디버깅 로그
-            System.out.println("#####OAuth2 User : " + oAuth2User);
-            System.out.println("#####Attributes : " + oAuth2User.getAttributes());
-            System.out.println("#####Authorites : " + oAuth2User.getAuthorities());
-            
             // 성공 후 토큰을 가지고 클라이언트로 넘어간다.
             UserDetails userDetails = userDetailsService.loadUserByOAuth2User(oAuth2User, provider);
 
@@ -52,7 +46,6 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                 response.sendRedirect("http://localhost:3000/choiWork?token=");
             }else{
                 String token = jwtUtil.generateToken(userDetails);
-                System.out.println("#####sns로그인 토큰 : " + token);
                 response.addHeader("Authorization", "Bearer " + token);
     
                 // 로그인 페이지 ( 만약에 로그인 페이지 url 바뀌면 변경 해주기 )
