@@ -61,7 +61,6 @@ public class SearchController {
 				int add_num = 10 - result.size();
 				List<String> mir_idx = new ArrayList<>();
 				for (MovieVO k : result) {
-					System.out.println(k.getMovie_idx());
 					mir_idx.add(k.getMovie_idx());
 				}
 				RealtimeOptionVO realtimeOptionVO = new RealtimeOptionVO();

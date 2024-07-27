@@ -98,6 +98,6 @@
     VALUES (#{profile_idx}, #{movie_idx}, SYSDATE())
     ON DUPLICATE KEY UPDATE
     watch_date = SYSDATE()
-</insert>
+  </insert>
 
 </mapper>
